@@ -1,0 +1,56 @@
+# ══════════════════════════════════
+#  .NET / Visual Studio .gitignore
+# ══════════════════════════════════
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nupkg
+**/project.lock.json
+**/project.fragment.lock.json
+*artifacts/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# OS Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# User-specific
+*.csproj.user
+*.dbmdl
+*.jfm
+
+# Build log
+msbuild.log
+msbuild.wrn
+msbuild.err
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Misc
+*.pidb
+*.svclog
+*.scc

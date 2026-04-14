@@ -1,0 +1,352 @@
+# 🕌 Salati — مشروع تطبيق تنبيه الصلاة
+
+## المشكلة اللي بنحلها
+
+ناس كتير بتقعد قدام الكمبيوتر ساعات طويلة — سواء شغل أو دراسة أو برمجة — وبتنسى مواعيد الصلاة أو بتلاحظ إن الوقت فات. التطبيقات الموجودة على الموبايل مش دايماً بتنفع لأن الموبايل ممكن يكون صامت أو بعيد.
+
+**Salati** تطبيق ديسكتوب لـ Windows بيحل المشكلة دي — بينبه المستخدم **قبل** وقت الصلاة بالمدة اللي هو يحددها، مع **تحكم كامل** في كل حاجة.
+
+---
+
+## 🎯 رؤية المشروع
+
+> تطبيق ديسكتوب خفيف وجميل، بيشتغل في الخلفية وبينبه المستخدم على الصلاة قبل معادها. المستخدم عنده تحكم كامل: يقدر يجيب المواعيد تلقائي من الإنترنت أو يحطها بنفسه يدوي، ويحدد قبل كل صلاة بكام دقيقة يجيله التنبيه.
+
+---
+
+## 📋 تحليل الميزات
+
+### ✅ v1.0 — MVP (النسخة الأولى)
+
+هذه هي الميزات الأساسية اللي لازم تكون في أول نسخة شغالة:
+
+#### 1. مصادر مواعيد الصلاة (مصدران)
+
+| المصدر | التفاصيل |
+|---|---|
+| **API خارجي (تلقائي)** | المستخدم يختار الدولة والمدينة → التطبيق يجيب المواعيد من [Aladhan API](https://aladhan.com/prayer-times-api) تلقائياً |
+| **إدخال يدوي** | المستخدم يكتب مواعيد الـ 5 صلوات بنفسه ويعدلها وقت ما يحب |
+
+> [!IMPORTANT]
+> المستخدم يقدر يختار المصدر اللي يناسبه ويغيره في أي وقت من الإعدادات.
+
+#### 2. نظام التنبيهات (Core Feature)
+
+| الميزة | التفاصيل |
+|---|---|
+| **تنبيه قبل الصلاة** | المستخدم يحدد بالدقيقة قبل كل صلاة بكام يجيله التنبيه (مثلاً: الظهر قبلها بـ 10 دقايق، العصر قبلها بـ 5) |
+| **تنبيه وقت الأذان** | تنبيه تاني لما يحين وقت الصلاة بالظبط |
+| **صوت الأذان** | المستخدم يقدر يختار صوت أذان أو صوت تنبيه بسيط |
+| **تفعيل/تعطيل per صلاة** | المستخدم يقدر يفعل أو يعطل التنبيه لكل صلاة على حدة |
+
+#### 3. واجهة المستخدم
+
+| العنصر | التفاصيل |
+|---|---|
+| **النافذة الرئيسية** | عرض الصلوات الخمس + الوقت المتبقي للصلاة الجاية + countdown timer |
+| **System Tray Icon** | التطبيق يشتغل في الخلفية ويظهر أيقونة في الـ taskbar |
+| **Tray Tooltip** | لما تقف على الأيقونة يظهرلك الصلاة الجاية وكام فاضل عليها |
+| **نافذة التنبيه (Popup)** | نافذة جميلة تظهر فوق كل البرامج لما يجي وقت التنبيه |
+| **الإعدادات** | نافذة إعدادات كاملة (المصدر، الأصوات، الدقائق، اللغة) |
+
+#### 4. الإعدادات والتخزين المحلي
+
+| الإعداد | التفاصيل |
+|---|---|
+| **حفظ الإعدادات** | في ملف JSON محلي (بدون database، بدون حساب مستخدم) |
+| **تشغيل مع الويندوز** | خيار إن التطبيق يشتغل تلقائي لما الويندوز يفتح (Windows Registry) |
+| **تذكر آخر إعدادات** | التطبيق يفتكر كل حاجة المستخدم ظبطها |
+
+#### 5. دعم اللغات
+
+| اللغة | الحالة |
+|---|---|
+| **العربية** | أساسية (RTL) |
+| **الإنجليزية** | أساسية |
+
+---
+
+### 🔮 v1.5 — تحديث الميزات الإضافية (بعد الـ MVP)
+
+| الميزة | التفاصيل |
+|---|---|
+| **أذكار بعد الصلاة** | عرض أذكار بعد كل صلاة مع عداد تسبيح |
+| **أذكار الصباح والمساء** | تنبيه بأذكار الصباح والمساء في أوقاتها |
+| **Themes** | المستخدم يقدر يغير ثيم التطبيق (Dark / Light / Custom) |
+| **أصوات مخصصة** | المستخدم يقدر يضيف أصوات أذان من عنده |
+
+### 🚀 v2.0 — التحديث الكبير (مستقبلي)
+
+| الميزة | التفاصيل |
+|---|---|
+| **Desktop Widget** | ويدجيت صغيرة على الديسكتوب فيها الصلاة الجاية |
+| **تقويم هجري** | عرض التاريخ الهجري |
+| **اتجاه القبلة** | بوصلة القبلة (لو الجهاز عنده GPS أو بإدخال يدوي) |
+| **إشعارات ذكية** | التطبيق يتعلم هل المستخدم بيستخدم الكمبيوتر ولا لأ ويتصرف |
+| **تلاوة قرآن** | مشغل قرآن مدمج |
+
+---
+
+## 🏗️ الهيكل التقني (Architecture)
+
+```
+Salati/
+├── Salati.UI/                    ← مشروع الـ WinForms (واجهة المستخدم)
+│   ├── Forms/
+│   │   ├── frmMain.cs            ← النافذة الرئيسية
+│   │   ├── frmSettings.cs        ← نافذة الإعدادات
+│   │   ├── frmAlert.cs           ← نافذة التنبيه (popup)
+│   │   └── frmAbout.cs           ← عن التطبيق
+│   ├── Controls/
+│   │   ├── ucPrayerCard.cs       ← كارت الصلاة الواحدة
+│   │   ├── ucCountdown.cs        ← عداد تنازلي
+│   │   └── ucTrayManager.cs      ← إدارة الـ System Tray
+│   ├── Assets/
+│   │   ├── Sounds/               ← أصوات الأذان
+│   │   ├── Icons/                ← الأيقونات
+│   │   └── Themes/               ← ملفات الثيمات
+│   └── Resources/
+│       ├── ar.resx               ← النصوص بالعربي
+│       └── en.resx               ← النصوص بالإنجليزي
+│
+├── Salati.BLL/                   ← Business Logic Layer
+│   ├── clsPrayerTimeManager.cs   ← إدارة مواعيد الصلاة
+│   ├── clsAlertScheduler.cs      ← جدولة التنبيهات
+│   ├── clsSettingsManager.cs     ← إدارة الإعدادات
+│   └── clsSoundPlayer.cs         ← تشغيل الأصوات
+│
+├── Salati.DAL/                   ← Data Access Layer
+│   ├── clsApiClient.cs           ← التواصل مع Aladhan API
+│   ├── clsLocalStorage.cs        ← قراءة/كتابة JSON settings
+│   └── clsRegistryHelper.cs      ← التعامل مع Windows Registry
+│
+├── Salati.Common/                ← المشترك بين كل الطبقات
+│   ├── Models/
+│   │   ├── PrayerTime.cs         ← موديل الصلاة الواحدة
+│   │   ├── AlertConfig.cs        ← إعدادات التنبيه
+│   │   └── AppSettings.cs        ← إعدادات التطبيق
+│   ├── Enums/
+│   │   ├── ePrayer.cs            ← enum الصلوات
+│   │   ├── eAlertType.cs         ← نوع التنبيه
+│   │   └── eLanguage.cs          ← اللغة
+│   └── Helpers/
+│       └── TimeHelper.cs         ← مساعدات التوقيت
+│
+└── README.md
+```
+
+> [!NOTE]
+> الهيكل ده بيتبع نفس الـ **3-Tier Architecture** اللي أنت متعود عليها من مشروع DVLD، فهيكون سهل عليك وعلى أي حد يشتغل معاك.
+
+---
+
+## 🔧 Tech Stack
+
+| التقنية | الاستخدام |
+|---|---|
+| **C# (.NET 9)** | اللغة الأساسية |
+| **WinForms** | واجهة المستخدم |
+| **HttpClient** | التواصل مع Aladhan API |
+| **System.Text.Json** | قراءة/كتابة JSON للإعدادات و API responses |
+| **NAudio** | تشغيل أصوات الأذان (مكتبة صوت احترافية) |
+| **Windows Registry** | تشغيل التطبيق مع بداية الويندوز |
+| **Git & GitHub** | إدارة الكود والتعاون |
+
+---
+
+## 👥 توزيع المهام (لفريق من 3-4 أشخاص)
+
+### 👤 محمود (Project Lead + UI Developer)
+- تصميم وبناء الواجهات (frmMain, frmAlert, frmSettings)
+- الـ Custom Controls (ucPrayerCard, ucCountdown)
+- الـ System Tray integration
+- مراجعة كود الفريق (Code Review)
+- إدارة الـ GitHub repo والـ branches
+
+### 👤 مطور 2 (Backend / Business Logic)
+- `clsPrayerTimeManager` — إدارة مواعيد الصلاة
+- `clsAlertScheduler` — جدولة التنبيهات بالـ Timer
+- `clsSoundPlayer` — تشغيل الأصوات
+- الـ Models والـ Enums في `Salati.Common`
+
+### 👤 مطور 3 (Data Access + API)
+- `clsApiClient` — التواصل مع Aladhan API وتحويل الـ JSON
+- `clsLocalStorage` — حفظ/قراءة الإعدادات من JSON file
+- `clsRegistryHelper` — Startup مع الويندوز
+- `clsSettingsManager` — ربط الإعدادات بالـ UI
+
+### 👤 مطور 4 (اختياري — UI/UX + Testing)
+- تصميم الثيمات
+- الـ Localization (عربي/إنجليزي)
+- كتابة Unit Tests
+- تحسين الـ UX والأنيميشن
+
+---
+
+## 📊 مراحل التنفيذ (Milestones)
+
+```mermaid
+gantt
+    title Salati Project Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %d
+
+    section Phase 1 - Foundation
+    Project Setup & Architecture     :p1, 2026-04-15, 3d
+    Models, Enums, Helpers           :p2, after p1, 2d
+    Local Storage (JSON)             :p3, after p1, 3d
+
+    section Phase 2 - Core Features
+    API Integration                  :p4, after p2, 5d
+    Manual Prayer Time Input         :p5, after p2, 3d
+    Alert Scheduler                  :p6, after p4, 5d
+    Sound Player                     :p7, after p6, 3d
+
+    section Phase 3 - UI
+    Main Window                      :p8, after p3, 5d
+    Settings Window                  :p9, after p8, 4d
+    Alert Popup                      :p10, after p7, 3d
+    System Tray                      :p11, after p8, 3d
+
+    section Phase 4 - Polish
+    Multi-language                   :p12, after p9, 3d
+    Testing & Bug Fixes              :p13, after p10, 5d
+    v1.0 Release                     :milestone, after p13, 0d
+```
+
+---
+
+## 📝 بوست للمشاركة في جروبات البرمجة
+
+> استخدم البوست ده في جروبات البرمجة العربية على Facebook أو Discord أو Telegram:
+
+---
+
+### النسخة العربية:
+
+```
+🕌 دعوة للمشاركة في مشروع Open Source — Salati
+
+السلام عليكم 👋
+
+أنا محمود، .NET Developer، وبدأت أشتغل على مشروع ديسكتوب بـ C# اسمه Salati — تطبيق تنبيه الصلاة لمستخدمي Windows.
+
+📌 فكرة المشروع:
+تطبيق خفيف بيشتغل في الخلفية وبينبهك قبل وقت الصلاة بالدقائق اللي أنت تحددها.
+
+🎯 أهم الميزات:
+✅ جلب مواعيد الصلاة تلقائياً من API أو إدخال يدوي
+✅ تنبيه قبل كل صلاة بعدد دقائق مخصص
+✅ تحكم كامل لكل صلاة على حدة (تفعيل/تعطيل)
+✅ صوت أذان + Popup Notification
+✅ يشتغل مع بداية الويندوز
+✅ دعم عربي وإنجليزي
+
+🛠️ Tech Stack:
+C# | .NET 9 | WinForms | 3-Tier Architecture | Aladhan API | JSON | NAudio
+
+👥 محتاج:
+- مطور C# يشتغل على الـ Business Logic والـ Timer scheduling
+- مطور يشتغل على الـ API integration وحفظ البيانات محلياً
+- (اختياري) حد مهتم بالـ UI/UX والـ Testing
+
+📋 المطلوب:
+- أساسيات C# و OOP
+- معرفة بـ Git & GitHub
+- الالتزام بوقت (ساعتين يومياً أو حسب الاتفاق)
+
+🔗 الـ Repo جاهز ومنظم بـ 3-Tier Architecture.
+لو مهتم ابعتلي message أو اكتب كومنت 👇
+
+#CSharp #DotNet #OpenSource #WinForms #مشروع_تخرج
+```
+
+---
+
+### النسخة الإنجليزية:
+
+```
+🕌 Open Source Project — Salati (Prayer Reminder for Windows)
+
+Hey everyone 👋
+
+I'm Mahmoud, a .NET Developer, and I'm building an open-source desktop app called Salati — a prayer time reminder for Windows users.
+
+📌 What it does:
+A lightweight app that runs in the background and reminds you before each prayer time by the exact minutes you choose.
+
+🎯 Key Features:
+✅ Auto-fetch prayer times via API or manual input
+✅ Custom pre-prayer alerts (per prayer, per minute)
+✅ Full control: enable/disable each prayer independently
+✅ Adhan sound + Popup notifications
+✅ Starts with Windows
+✅ Arabic & English support
+
+🛠️ Tech Stack:
+C# | .NET 9 | WinForms | 3-Tier Architecture | Aladhan API | JSON | NAudio
+
+👥 Looking for:
+- C# developer for Business Logic & Timer scheduling
+- C# developer for API integration & local data management
+- (Optional) UI/UX enthusiast & tester
+
+📋 Requirements:
+- C# & OOP fundamentals
+- Git & GitHub basics
+- Commitment (~2 hours/day or as agreed)
+
+DM me or comment below if interested! 👇
+
+#CSharp #DotNet #OpenSource #WinForms
+```
+
+---
+
+## 📁 GitHub README Template
+
+```markdown
+# 🕌 Salati — Prayer Time Reminder for Windows
+
+A lightweight, customizable desktop application that reminds you before each prayer time.
+
+## ✨ Features
+- 🕐 Auto-fetch prayer times via Aladhan API
+- ✏️ Manual prayer time input
+- ⏰ Custom pre-prayer alerts (set minutes per prayer)
+- 🔊 Adhan sound & popup notifications  
+- 🖥️ System tray integration
+- 🚀 Starts with Windows
+- 🌐 Arabic & English support
+
+## 🛠️ Tech Stack
+- C# (.NET 9)
+- WinForms
+- 3-Tier Architecture
+- Aladhan API
+- NAudio (Sound)
+- System.Text.Json
+
+## 📁 Project Structure
+[See Architecture Docs]
+
+## 🤝 Contributing
+We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## 📄 License
+This project is licensed under the MIT License.
+```
+
+---
+
+## ⚡ خطوات البداية الفورية
+
+1. **إنشاء الـ GitHub Repo** — بالاسم `Salati` مع README
+2. **إنشاء الـ Solution** — بالهيكل الموضح فوق (4 مشاريع)
+3. **إعداد الـ Branch Strategy** — `main` + `develop` + feature branches
+4. **نشر البوست** — في الجروبات
+5. **إنشاء Issues** — كل ميزة تبقى Issue على GitHub
+6. **Project Board** — استخدم GitHub Projects لتتبع التقدم
+
+> [!TIP]
+> ابدأ بتنفيذ الـ `Salati.Common` (Models + Enums) لوحدك أول حاجة، دي بسيطة ومش محتاجة حد. لما الناس تيجي يلاقوا الأساس جاهز ويبدأوا يشتغلوا على طول.
