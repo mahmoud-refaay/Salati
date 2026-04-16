@@ -56,6 +56,9 @@ namespace UI.Forms
             // 📿 إشعارات الأذكار في الخلفية (كل 30 دقيقة)
             clsAdhkarService.Start(notifyIcon, 30);
 
+            // ⏰ جدولة تنبيهات الصلاة (كل 30 ثانية)
+            clsAlertScheduler.Start(notifyIcon);
+
             // تطبيق Theme + Language (smooth - بدون رعشة)
             clsUIEngine.ApplyAll(this);
             clsUIEngine.BindEvents(this);
@@ -431,10 +434,9 @@ namespace UI.Forms
 
         private void MinimizeToTray()
         {
-            // TODO: BLL — لو clsSettingsStore.CloseToTray == true
             this.Hide();
             notifyIcon.Visible = true;
-            notifyIcon.ShowBalloonTip(1500, "Salati", "البرنامج شغال في الخلفية 🕌", ToolTipIcon.Info);
+            notifyIcon.ShowBalloonTip(1500, "Salati", "البرنامج شغال في الخلفية 🕌\nالتنبيهات والأذكار مستمرة", ToolTipIcon.Info);
         }
 
         private void ShowFromTray()
