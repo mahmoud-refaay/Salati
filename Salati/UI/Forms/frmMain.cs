@@ -44,7 +44,7 @@ namespace UI.Forms
             CreatePrayerCards();
             WireEvents();
             SetupTrayMenu();
-            LoadMockData();
+            _ = LoadPrayerTimesAsync();
 
             // Pre-load: إنشاء handles الشاشات في الذاكرة
             // حجمها صغير + بيخلي أول فتح يكون فوري
@@ -145,19 +145,29 @@ namespace UI.Forms
         }
 
         // ═══════════════════════════════════════
-        //  Mock Data — بيانات مؤقتة للاختبار
+        //  Prayer Times — من API/DB (Dapper + Aladhan)
         // ═══════════════════════════════════════
 
-        private void LoadMockData()
+        private async Task LoadPrayerTimesAsync()
         {
-            // TODO: BLL — استبدال بـ clsPrayerTimeManager.GetTodayTimes()
-            var mockTimes = new TimeOnly[]
+            var service = new BLL.Services.PrayerTimesService();
+            var result = await service.GetTodayTimesAsync();
+
+            if (!result.IsSuccess || result.Data == null)
             {
-                new(4, 35),   // Fajr
-                new(12, 15),  // Dhuhr
-                new(15, 45),  // Asr
-                new(18, 30),  // Maghrib
-                new(20, 0),   // Isha
+                // Fallback: لو فشل API والـ DB فاضية
+                DAL.Logging.clsLogger.Warn($"[UI] LoadPrayerTimes failed: {result.Error}");
+                return;
+            }
+
+            var times = result.Data;
+            var prayerTimes = new TimeOnly[]
+            {
+                TimeOnly.FromTimeSpan(times.FajrTime),
+                TimeOnly.FromTimeSpan(times.DhuhrTime),
+                TimeOnly.FromTimeSpan(times.AsrTime),
+                TimeOnly.FromTimeSpan(times.MaghribTime),
+                TimeOnly.FromTimeSpan(times.IshaTime),
             };
 
             // ضبط الأوقات والحالات
@@ -165,19 +175,19 @@ namespace UI.Forms
 
             for (int i = 0; i < 5; i++)
             {
-                _prayerCards[i].PrayerTime = mockTimes[i];
+                _prayerCards[i].PrayerTime = prayerTimes[i];
 
-                if (mockTimes[i] < now)
+                if (prayerTimes[i] < now)
                     _prayerCards[i].Status = ePrayerStatus.Passed;
-                else if (i == 0 || mockTimes[i - 1] < now)
+                else if (i == 0 || prayerTimes[i - 1] < now)
                 {
                     _prayerCards[i].Status = ePrayerStatus.Next;
 
                     // Hero card
                     nextPrayer.Prayer = _prayerCards[i].Prayer;
-                    nextPrayer.PrayerTime = mockTimes[i];
+                    nextPrayer.PrayerTime = prayerTimes[i];
 
-                    var target = DateTime.Today.Add(mockTimes[i].ToTimeSpan());
+                    var target = DateTime.Today.Add(prayerTimes[i].ToTimeSpan());
                     if (target < DateTime.Now)
                         target = target.AddDays(1);
                     nextPrayer.StartCountdown(target);

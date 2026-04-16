@@ -35,3 +35,13 @@ public enum ePrayer : byte
     Maghrib = 4,   // 🌅 المغرب
     Isha = 5       // 🌙 العشاء
 }
+
+/// <summary>
+/// مصدر مواعيد الصلاة — يتوافق مع Column: Source (TINYINT) في جدول DailyPrayerTimes.
+/// </summary>
+public enum ePrayerSource : byte
+{
+    API = 1,       // 🌐 من Aladhan API
+    Manual = 2     // ✏️ إدخال يدوي
+}
+
