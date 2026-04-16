@@ -153,27 +153,54 @@ namespace UI.Forms
 
         private async Task LoadPrayerTimesAsync()
         {
-            var service = new BLL.Services.PrayerTimesService();
-            var result = await service.GetTodayTimesAsync();
+            TimeOnly[] prayerTimes;
 
-            if (!result.IsSuccess || result.Data == null)
+            try
             {
-                // Fallback: لو فشل API والـ DB فاضية
-                DAL.Logging.clsLogger.Warn($"[UI] LoadPrayerTimes failed: {result.Error}");
-                return;
+                var service = new BLL.Services.PrayerTimesService();
+                var result = await service.GetTodayTimesAsync();
+
+                if (result.IsSuccess && result.Data != null)
+                {
+                    var times = result.Data;
+                    prayerTimes = new TimeOnly[]
+                    {
+                        TimeOnly.FromTimeSpan(times.FajrTime),
+                        TimeOnly.FromTimeSpan(times.DhuhrTime),
+                        TimeOnly.FromTimeSpan(times.AsrTime),
+                        TimeOnly.FromTimeSpan(times.MaghribTime),
+                        TimeOnly.FromTimeSpan(times.IshaTime),
+                    };
+                }
+                else
+                {
+                    // Fallback: لو فشل API أو DB فاضية → أوقات تقريبية للقاهرة
+                    DAL.Logging.clsLogger.Warn($"[UI] API/DB failed — using fallback times: {result.Error}");
+                    prayerTimes = GetFallbackTimes();
+                }
+            }
+            catch (Exception ex)
+            {
+                DAL.Logging.clsLogger.Error("[UI] LoadPrayerTimes exception — using fallback", ex);
+                prayerTimes = GetFallbackTimes();
             }
 
-            var times = result.Data;
-            var prayerTimes = new TimeOnly[]
-            {
-                TimeOnly.FromTimeSpan(times.FajrTime),
-                TimeOnly.FromTimeSpan(times.DhuhrTime),
-                TimeOnly.FromTimeSpan(times.AsrTime),
-                TimeOnly.FromTimeSpan(times.MaghribTime),
-                TimeOnly.FromTimeSpan(times.IshaTime),
-            };
+            ApplyPrayerTimes(prayerTimes);
+        }
 
-            // ضبط الأوقات والحالات
+        /// <summary>أوقات تقريبية للقاهرة — تُستخدم لو API/DB فشل</summary>
+        private static TimeOnly[] GetFallbackTimes() => new TimeOnly[]
+        {
+            new(4, 15),   // Fajr
+            new(11, 55),  // Dhuhr
+            new(15, 25),  // Asr
+            new(18, 35),  // Maghrib
+            new(19, 55),  // Isha
+        };
+
+        /// <summary>يضبط الأوقات على الكروت + يحدد الصلاة التالية</summary>
+        private void ApplyPrayerTimes(TimeOnly[] prayerTimes)
+        {
             var now = TimeOnly.FromDateTime(DateTime.Now);
 
             for (int i = 0; i < 5; i++)

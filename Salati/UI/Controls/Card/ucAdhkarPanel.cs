@@ -57,24 +57,38 @@ namespace UI.Controls.Card
         public async Task LoadMorningAdhkarAsync()
         {
             _isMorning = true;
-            var result = await _service.GetMorningAdhkarAsync();
+            try
+            {
+                var result = await _service.GetMorningAdhkarAsync();
 
-            if (result.IsSuccess)
-                BuildRows(result.Data!);
-            else
-                lblProgress.Text = $"⚠️ {result.Error}";
+                if (result.IsSuccess && result.Data != null && result.Data.Count > 0)
+                    BuildRows(result.Data);
+                else
+                    lblProgress.Text = "⚠️ شغّل SQL seed script لتحميل الأذكار";
+            }
+            catch
+            {
+                lblProgress.Text = "⚠️ تعذّر الاتصال بالقاعدة";
+            }
         }
 
         /// <summary>يحمّل أذكار المساء من الداتابيز</summary>
         public async Task LoadEveningAdhkarAsync()
         {
             _isMorning = false;
-            var result = await _service.GetEveningAdhkarAsync();
+            try
+            {
+                var result = await _service.GetEveningAdhkarAsync();
 
-            if (result.IsSuccess)
-                BuildRows(result.Data!);
-            else
-                lblProgress.Text = $"⚠️ {result.Error}";
+                if (result.IsSuccess && result.Data != null && result.Data.Count > 0)
+                    BuildRows(result.Data);
+                else
+                    lblProgress.Text = "⚠️ شغّل SQL seed script لتحميل الأذكار";
+            }
+            catch
+            {
+                lblProgress.Text = "⚠️ تعذّر الاتصال بالقاعدة";
+            }
         }
 
         // ═══════════════════════════════════════

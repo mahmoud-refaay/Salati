@@ -92,30 +92,43 @@ namespace UI.Controls.Card
         /// <summary>🆕 يحمّل بيانات من الداتابيز — async</summary>
         public async Task LoadFromDatabaseAsync()
         {
-            // ── 1. حالة صلوات اليوم ──
-            var trackingResult = await _service.GetTodayTrackingAsync();
-
-            if (trackingResult.IsSuccess)
+            try
             {
-                var now = TimeOnly.FromDateTime(DateTime.Now);
-                foreach (var dto in trackingResult.Data!)
+                // ── 1. حالة صلوات اليوم ──
+                var trackingResult = await _service.GetTodayTrackingAsync();
+
+                if (trackingResult.IsSuccess && trackingResult.Data != null && trackingResult.Data.Count > 0)
                 {
-                    int idx = (int)dto.Prayer - 1;
-                    if (idx < 0 || idx >= 5) continue;
+                    var now = TimeOnly.FromDateTime(DateTime.Now);
+                    foreach (var dto in trackingResult.Data)
+                    {
+                        int idx = (int)dto.Prayer - 1;
+                        if (idx < 0 || idx >= 5) continue;
 
-                    var time = TimeOnly.FromTimeSpan(dto.PrayerTime);
-                    bool isLocked = time > now;
+                        var time = TimeOnly.FromTimeSpan(dto.PrayerTime);
+                        bool isLocked = time > now;
 
-                    // Map DAL enum → UI enum
-                    var uiStatus = (eTrackingStatus)(byte)dto.Status;
-                    SetPrayerStatus((ePrayer)(byte)dto.Prayer, uiStatus, time, isLocked);
+                        // Map DAL enum → UI enum
+                        var uiStatus = (eTrackingStatus)(byte)dto.Status;
+                        SetPrayerStatus((ePrayer)(byte)dto.Prayer, uiStatus, time, isLocked);
+                    }
+
+                    // ── 2. إحصائيات ──
+                    int streak = await _service.GetStreakCountAsync();
+                    decimal percentage = await _service.GetOverallPercentageAsync();
+                    SetStats((int)percentage, streak);
+                }
+                else
+                {
+                    // DB فاضية → عرض mock data
+                    LoadMockData();
                 }
             }
-
-            // ── 2. إحصائيات ──
-            int streak = await _service.GetStreakCountAsync();
-            decimal percentage = await _service.GetOverallPercentageAsync();
-            SetStats((int)percentage, streak);
+            catch
+            {
+                // أي خطأ → fallback to mock
+                LoadMockData();
+            }
         }
 
         /// <summary>يحمّل بيانات mock للاختبار (fallback)</summary>
