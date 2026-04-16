@@ -1,0 +1,242 @@
+# 🎨 Salati — Visily Prompts (مقسّمة — كل واحد أقل من 4000 حرف)
+
+> كل برومبت لشاشة واحدة. انسخ كل واحد لوحده في Visily.
+
+---
+
+## Prompt 1: Main Dashboard (الشاشة الرئيسية)
+
+```
+Design a Windows desktop app main screen for "Salati" — an Islamic prayer reminder.
+
+Style: Dark mode, premium, Islamic-inspired, calm.
+Colors: Background #0D1117, Cards #161B22, Green accent #1B8A6B, Gold accent #C8A96E, Text #E6EDF3, Muted #8B949E.
+Borderless window with custom title bar. Rounded corners 12px. Size: 700x500px.
+
+TITLE BAR (top):
+Left: Mosque icon + "Salati" in gold.
+Right buttons: 📌 pin, ⚙️ settings, 🌙 theme, "AR" language, — minimize, ✕ close. Small and minimal.
+
+HERO SECTION (center, 40% height):
+Large card with green border glow containing:
+- Large prayer emoji: 🌤️
+- "صلاة العصر" large white text
+- "Asr Prayer" small muted text below
+- "03:45 PM" in gold color
+- Giant countdown: "01:23:45" — 32px, white, monospace
+- Thin green progress bar below (72% filled)
+- "متبقي | Remaining" tiny muted text
+
+5 PRAYER CARDS ROW (below hero, horizontal):
+5 cards evenly spaced, each ~110x90px:
+- 🌅 الفجر 04:35 — gray, ✅ (passed)
+- ☀️ الظهر 12:15 — gray, ✅ (passed)
+- 🌤️ العصر 03:45 — GREEN BORDER GLOW, ⏳ (next prayer, highlighted)
+- 🌇 المغرب 06:30 — normal dark, ⌛ (upcoming)
+- 🌙 العشاء 08:00 — normal dark, ⌛ (upcoming)
+
+BOTTOM BAR:
+"📅 Saturday, April 12, 2026" left. "📍 Cairo, Egypt" center. "▼ Minimize to Tray" right subtle text.
+
+Faint Islamic geometric pattern at 3% opacity in background. Premium, calm, spiritual feel.
+```
+
+---
+
+## Prompt 2: Settings Panel (لوحة الإعدادات)
+
+```
+Design a settings slide panel for "Salati" prayer reminder desktop app.
+
+Style: Dark mode panel sliding from right side over a blurred/dimmed main screen.
+Colors: Panel bg #161B22, green accent #1B8A6B, gold #C8A96E, text #E6EDF3, muted #8B949E.
+Panel width: 350px, full height. Left green border glow. Rounded left corners.
+
+PANEL TOP:
+"⚙️ الإعدادات | Settings" title in white. "✕" close button.
+
+LEFT EDGE — 4 vertical tabs:
+🕐 المواعيد (Prayer Times) — ACTIVE with green indicator
+🔔 التنبيهات (Alerts)
+🎨 المظهر (Appearance)
+⚙️ عام (General)
+
+CONTENT — Prayer Times tab showing:
+
+Source selection:
+(●) تلقائي | Auto (API) — selected
+( ) إدخال يدوي | Manual
+
+Location dropdowns (dark inputs, green focus):
+- الدولة | Country: [Egypt ▾]
+- المدينة | City: [Cairo ▾]
+- طريقة الحساب | Method: [Egyptian Authority ▾]
+- Green button: "🔄 تحديث | Refresh"
+
+Manual input section (shown when Manual selected):
+5 time picker rows:
+🌅 الفجر: [04:35 AM]
+☀️ الظهر: [12:15 PM]
+🌤️ العصر: [03:45 PM]
+🌇 المغرب: [06:30 PM]
+🌙 العشاء: [08:00 PM]
+
+Bottom: Green gradient "💾 حفظ | Save" button.
+
+Behind the panel: the main dashboard screen blurred at 40% opacity.
+```
+
+---
+
+## Prompt 3: Settings — Alerts Tab (تنبيهات)
+
+```
+Design an alerts settings panel for "Salati" prayer app.
+
+Dark slide panel, 350px wide. Bg #161B22, green #1B8A6B, gold #C8A96E, text #E6EDF3.
+This is the "🔔 Alerts" tab content inside the settings panel.
+
+Title: "🔔 التنبيهات | Alerts"
+
+PER-PRAYER ALERT TABLE (5 rows):
+Each row has: [Icon+Name] [Toggle] [Minutes dropdown] [Sound dropdown]
+
+🌅 الفجر    [✅ ON]  [10 min ▾]  [أذان الحرم ▾]
+☀️ الظهر    [✅ ON]  [5 min ▾]   [أذان الحرم ▾]
+🌤️ العصر    [✅ ON]  [5 min ▾]   [أذان الحرم ▾]
+🌇 المغرب   [✅ ON]  [10 min ▾]  [أذان الحرم ▾]
+🌙 العشاء   [✅ ON]  [5 min ▾]   [أذان الحرم ▾]
+
+Toggles: Green when ON, gray when OFF. Rounded switch style.
+Dropdowns: Dark bg #0D1117, subtle border.
+
+SOUND SETTINGS section below:
+- Volume slider: [████████░░] 80% — green fill
+- Toggle: "تنبيه وقت الأذان | Alert at Adhan time" [ON]
+- Dropdown: "نوع التنبيه | Type" [صوت أذان | Adhan Sound ▾]
+
+Bottom: Green gradient "💾 حفظ | Save" button.
+
+Clean spacing, professional toggle switches, dark input fields with green focus borders.
+```
+
+---
+
+## Prompt 4: Alert Popup (نافذة التنبيه)
+
+```
+Design a prayer alert popup notification for "Salati" desktop app.
+
+Size: 420x300px. Borderless, rounded corners 16px, drop shadow.
+Position: Top-right of screen. Always on top.
+Bg: #161B22 with 2px green (#1B8A6B) gradient border glow.
+
+LAYOUT (centered, vertical):
+
+Top: Thin Islamic geometric decorative line (green/gold, subtle).
+
+Center content:
+- Large prayer emoji: 🌤️ with subtle green radial glow behind it
+- Line 1: "تبقى 10 دقائق على" — medium white text
+- Line 2: "صلاة العصر" — LARGE bold white text (24px)
+- Line 3: "03:45 PM" — gold color (#C8A96E)
+- Spacer
+- "حي على الصلاة حي على الفلاح" — small, muted, italic
+- Thin green divider line
+
+Bottom buttons (two, side by side):
+- Left: "🔇 كتم | Mute" — outline style, subtle border, no fill
+- Right: "✅ تم | Dismiss" — green gradient button (#1B8A6B to #C8A96E)
+
+Tiny text at very bottom: "يختفي تلقائياً بعد 60 ثانية" — very muted, 10px
+
+Feel: Gentle, calm, beautiful. A spiritual reminder, not an aggressive popup.
+Subtle shadow around the entire window.
+```
+
+---
+
+## Prompt 5: Widget Mode + Splash Screen
+
+```
+Design 2 screens for "Salati" prayer app:
+
+SCREEN A — WIDGET MODE (compact strip):
+Size: 300x85px. Borderless, rounded 12px, always on top.
+Background: rgba(13,17,23,0.92) — dark, slightly transparent.
+1px green (#1B8A6B) subtle border glow.
+
+Horizontal layout, 3 sections:
+- Left: 🌤️ emoji + "العصر" text + "03:45 PM" in gold below
+- Center: Large "01:23:45" countdown in white monospace. Tiny green progress bar below.
+- Right: 📌 pin button + ✕ close button (small, minimal)
+
+Feels like a floating mini player — minimal, always visible, not distracting.
+
+---
+
+SCREEN B — SPLASH SCREEN:
+Size: 480x340px. Borderless, centered, no taskbar.
+Background: Gradient from #0A0E14 (top) to #0D1117 (bottom).
+
+Center layout:
+- Faint green radial glow in center (very subtle, like light behind mosque)
+- Mosque silhouette icon — simple, modern geometric style, green (#1B8A6B)
+- "Salati" — large elegant font, gold (#C8A96E)
+- "صلاتي" — Arabic, slightly smaller, white
+- Spacer
+- "وَأَقِيمُوا الصَّلَاةَ" — subtle gold, muted
+- Bottom: Thin green progress bar (loading animation)
+- "v1.0" — tiny muted gray text, bottom-right
+
+Premium, spiritual, calm branding moment. No window controls.
+```
+
+---
+
+## Prompt 6: System Tray Menu
+
+```
+Design a system tray context menu for "Salati" prayer app.
+
+Style: Windows 11 dark context menu. Size: ~220x220px.
+Bg: #1C2128, rounded corners 8px, subtle shadow.
+Text: #E6EDF3 primary, #8B949E muted.
+
+Menu items (top to bottom):
+
+"🕌 Salati" — bold, gold (#C8A96E), header, not clickable
+
+── thin separator line (#2D333B) ──
+
+"⏳ العصر: 03:45 PM" — green text (#1B8A6B)
+"     متبقي: 01:23:45" — muted, indented, smaller
+
+── separator ──
+
+"📂 فتح Salati | Open" — white text, hover: subtle green bg
+"📌 وضع مصغر | Widget" — white text
+"🔕 كتم مؤقت | Mute" — white text, toggle indicator
+"⚙️ الإعدادات | Settings" — white text
+
+── separator ──
+
+"❌ خروج | Exit" — red text (#E06C75)
+
+Hover effect: subtle green (#1B8A6B) at 10% opacity background.
+Each item has 8px padding. Icons left-aligned.
+Compact, clean, modern Windows 11 style.
+```
+
+---
+
+## 📋 ترتيب النسخ
+
+| الترتيب | البرومبت | الأهمية |
+|---------|----------|---------|
+| 1️⃣ | **Main Dashboard** | ⭐ الأهم — ابدأ بيه |
+| 2️⃣ | **Alert Popup** | ⭐ تاني أهم شاشة |
+| 3️⃣ | **Settings Panel** | الإعدادات |
+| 4️⃣ | **Alerts Tab** | تكملة الإعدادات |
+| 5️⃣ | **Widget + Splash** | شاشتين في برومبت واحد |
+| 6️⃣ | **Tray Menu** | الأقل أهمية |

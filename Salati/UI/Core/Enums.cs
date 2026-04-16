@@ -13,14 +13,19 @@ namespace UI.Core
     /// <summary>حالة الصلاة في الداشبورد</summary>
     public enum ePrayerStatus
     {
-        /// <summary>الصلاة فاتت</summary>
         Passed = 1,
-        /// <summary>الصلاة القادمة (مميزة)</summary>
         Next = 2,
-        /// <summary>صلاة لاحقة</summary>
         Upcoming = 3,
-        /// <summary>معطلة</summary>
         Disabled = 4
+    }
+
+    /// <summary>حالة تتبع الصلاة</summary>
+    public enum eTrackingStatus
+    {
+        NotMarked = 0,
+        OnTime = 1,
+        Late = 2,
+        Missed = 3
     }
 
     /// <summary>مصدر المواعيد</summary>
@@ -38,13 +43,9 @@ namespace UI.Core
         WindowsNotification = 3
     }
 
-    /// <summary>
-    /// Helper — يرجع Emoji الصلاة ولونها.
-    /// مركزي عشان كل الكنترولز تستخدمه.
-    /// </summary>
+    /// <summary>Helper — يرجع Emoji/اسم الصلاة</summary>
     public static class PrayerHelper
     {
-        /// <summary>إيموجي كل صلاة</summary>
         public static string GetEmoji(ePrayer prayer) => prayer switch
         {
             ePrayer.Fajr => "🌅",
@@ -55,7 +56,6 @@ namespace UI.Core
             _ => "🕐"
         };
 
-        /// <summary>إيموجي حالة الصلاة</summary>
         public static string GetStatusEmoji(ePrayerStatus status) => status switch
         {
             ePrayerStatus.Passed => "✅",
@@ -65,7 +65,15 @@ namespace UI.Core
             _ => ""
         };
 
-        /// <summary>اسم الصلاة من ILanguagePack</summary>
+        public static string GetTrackingEmoji(eTrackingStatus status) => status switch
+        {
+            eTrackingStatus.OnTime => "✅",
+            eTrackingStatus.Late => "⚠️",
+            eTrackingStatus.Missed => "❌",
+            eTrackingStatus.NotMarked => "⬜",
+            _ => "⬜"
+        };
+
         public static string GetName(ePrayer prayer, Language.ILanguagePack lang) => prayer switch
         {
             ePrayer.Fajr => lang.PrayerFajr,
@@ -76,7 +84,6 @@ namespace UI.Core
             _ => ""
         };
 
-        /// <summary>اسم الصلاة بالإنجليزي</summary>
         public static string GetEnglishName(ePrayer prayer, Language.ILanguagePack lang) => prayer switch
         {
             ePrayer.Fajr => lang.PrayerFajrEn,

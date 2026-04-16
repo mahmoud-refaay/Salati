@@ -42,15 +42,15 @@ namespace UI.Controls.Layout
             // 
             // lblDate — 📅 Saturday, April 12
             // 
-            lblDate.AutoSize = true;
+            lblDate.AutoSize = false;
             lblDate.BackColor = Color.Transparent;
             lblDate.Font = new Font("Segoe UI", 8.5F);
             lblDate.ForeColor = Color.FromArgb(72, 79, 88);
             lblDate.Location = new Point(12, 7);
             lblDate.Name = "lblDate";
-            lblDate.Size = new Size(150, 15);
+            lblDate.Size = new Size(420, 15);
             lblDate.TabIndex = 0;
-            lblDate.Text = "📅 Saturday, April 12";
+            lblDate.Text = "📅 Saturday, April 12  ·  🌙 17 Shawwal 1447";
 
             // 
             // lblCity — 📍 Cairo

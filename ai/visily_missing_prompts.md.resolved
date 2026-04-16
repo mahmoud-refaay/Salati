@@ -1,0 +1,118 @@
+# 🎨 Salati — Visily Prompts (الشاشات الناقصة)
+
+---
+
+## Prompt 7: Settings — Appearance Tab (المظهر)
+
+```
+Design an Appearance settings panel for "Salati" Islamic prayer reminder desktop app.
+
+This is the "Appearance" tab content inside a dark settings slide panel (right side, 350px wide).
+Colors: Panel bg #161B22, cards #1C2128, green #1B8A6B, gold #C8A96E, text #E6EDF3, muted #8B949E.
+
+Left edge: 4 vertical icon tabs (same as other settings screens):
+- 🕐 المواعيد (Prayer Times)
+- 🔔 التنبيهات (Alerts)
+- 🎨 المظهر (Appearance) — ACTIVE with green indicator line
+- ⚙️ عام (General)
+
+PANEL TITLE: "🎨 المظهر | Appearance"
+Close ✕ button top-right.
+
+SECTION 1 — "الثيم | Theme":
+Two theme cards side by side (each ~140x120px):
+
+Card 1 — SELECTED (green border glow, green checkmark ✓ at top-right):
+- Small dark preview rectangle showing mini mockup (dark bg, tiny green elements)
+- Icon: 🌙
+- Title: "Midnight Serenity"
+- Subtitle: "داكن | Dark" — muted text
+- Green border (#1B8A6B), subtle glow
+
+Card 2 — NOT SELECTED (dim border, no checkmark):
+- Small light preview rectangle (beige bg, tiny dark elements)
+- Icon: ☀️
+- Title: "Golden Dawn"
+- Subtitle: "فاتح | Light" — muted text
+- Gray border, subtle
+
+SECTION 2 — "اللغة | Language":
+Two language cards side by side (each ~140x80px):
+
+Card 1 — SELECTED (green border):
+- "العربية" — large text
+- "Arabic" — small muted below
+- Green checkmark ✓
+
+Card 2 — NOT SELECTED:
+- "English" — large text
+- "الإنجليزية" — small muted below
+- Gray border
+
+Bottom: Green gradient "💾 حفظ | Save" button.
+
+Note: Selection is click-to-toggle. Only one theme and one language can be active.
+Clean, minimal, consistent with other tabs.
+```
+
+---
+
+## Prompt 8: Settings — General Tab (عام)
+
+```
+Design a General settings panel for "Salati" Islamic prayer reminder desktop app.
+
+This is the "General" tab content inside a dark settings slide panel (right side, 350px wide).
+Colors: Panel bg #161B22, cards #1C2128, green #1B8A6B, gold #C8A96E, text #E6EDF3, muted #8B949E.
+
+Left edge: 4 vertical icon tabs:
+- 🕐 المواعيد
+- 🔔 التنبيهات
+- 🎨 المظهر
+- ⚙️ عام (General) — ACTIVE with green indicator line
+
+PANEL TITLE: "⚙️ عام | General"
+Close ✕ button top-right.
+
+SECTION 1 — "بدء التشغيل | Startup" card (dark bg #1C2128, rounded 12px):
+4 toggle rows, each row has: [Label text] ... [Toggle switch on right]
+
+Row 1: "تشغيل مع بداية الويندوز | Start with Windows"    [✅ ON — green]
+Row 2: "تصغير عند البدء | Minimize on start"              [⬜ OFF — gray]
+Row 3: "إظهار في System Tray"                              [✅ ON — green]
+Row 4: "تصغير لـ Tray عند الإغلاق | Close to tray"        [✅ ON — green]
+
+Toggle switches: rounded pill style, green (#1B8A6B) when ON, gray (#484F58) when OFF.
+Subtle separator lines between rows.
+
+SECTION 2 — "البيانات | Data" card:
+Two buttons stacked:
+- "🔄 إعادة ضبط الإعدادات | Reset to Defaults" — outline button (green border, no fill, text green)
+- "📂 فتح مجلد الإعدادات | Open Settings Folder" — outline button (gray border, text muted)
+
+SECTION 3 — "عن التطبيق | About" (no card, just text):
+- 🕌 "Salati v1.0.0" — white text, medium
+- "صنع بـ ❤️ بواسطة فريق Salati" — muted, small
+- "Made with ❤️ by Salati Team"
+- Link style text: "🔗 GitHub" — green underline text
+
+Bottom: Green gradient "💾 حفظ | Save" button.
+
+Clean, organized, consistent toggle style with the Alerts tab.
+```
+
+---
+
+## 📋 الآن كل الشاشات مكتملة:
+
+| # | الشاشة | Status |
+|---|--------|--------|
+| 1 | Main Dashboard | ✅ موجود |
+| 2 | Settings — Prayer Times | ✅ موجود |
+| 3 | Settings — Alerts | ✅ موجود |
+| 4 | Settings — Appearance | 🆕 **البرومبت ده** |
+| 5 | Settings — General | 🆕 **البرومبت ده** |
+| 6 | Alert Popup | ✅ موجود |
+| 7 | Widget Mode | ✅ موجود |
+| 8 | Splash Screen | ✅ موجود |
+| 9 | Tray Menu | ✅ موجود |

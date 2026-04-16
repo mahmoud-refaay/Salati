@@ -90,5 +90,33 @@ namespace UI.Core.Language.Languages
         public string AlertOk => "موافق";
         public string AlertYes => "نعم";
         public string AlertNo => "لا";
+
+        // ═══ Tracking ═══
+        public string TrackingTitle => "تتبع الصلاة";
+        public string TrackingSubtitle => "حافظ على صلواتك";
+        public string TrackingOnTime => "صليت في الوقت";
+        public string TrackingLate => "صليت متأخراً";
+        public string TrackingMissed => "لم أصلِّ";
+        public string TrackingNotYet => "لم أحدد بعد";
+        public string TrackingLocked => "لم يحن الوقت";
+        public string TrackingCommitment => "الالتزام";
+        public string TrackingStreak => "أيام متتالية";
+        public string TrackingStreakDays => "{0} يوم 🔥";
+        public string TrackingThisMonth => "هذا الشهر";
+        public string TrackingMarkPrayed => "صليت ✓";
+        public string TrackingUnmark => "إلغاء ✕";
+        public string TrackingMarkedSuccess => "تم تعليم {0} بنجاح";
+        public string TrackingUnmarkedSuccess => "تم إلغاء تعليم {0}";
+        public string TrackingNoPrayerTimes => "لا توجد مواعيد صلاة متاحة لليوم";
+        public string TrackingTooEarly => "لم يحن وقت هذه الصلاة بعد";
+        public string TrackingGenericError => "تعذر تحديث تتبع الصلاة";
+
+        // ═══ Adhkar ═══
+        public string AdhkarMorningTitle => "أذكار الصباح";
+        public string AdhkarEveningTitle => "أذكار المساء";
+        public string AdhkarTap => "اضغط على كل ذكر لعدّه";
+        public string AdhkarDone => "✅ اكتمل";
+        public string AdhkarProgress => "تم إنجاز: {0}/{1}";
+        public string AdhkarCompleted => "الحمد لله — اكتملت الأذكار!";
     }
 }

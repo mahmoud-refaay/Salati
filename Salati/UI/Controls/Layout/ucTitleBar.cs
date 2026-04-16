@@ -24,6 +24,12 @@ namespace UI.Controls.Layout
         /// <summary>⚙️ فتح/إغلاق Settings Panel</summary>
         public event EventHandler? SettingsClicked;
 
+        /// <summary>📿 فتح لوحة الأذكار</summary>
+        public event EventHandler? AdhkarClicked;
+
+        /// <summary>📊 فتح/إغلاق Tracking Panel</summary>
+        public event EventHandler? TrackingClicked;
+
         /// <summary>🌙 تبديل Dark/Light</summary>
         public event EventHandler? ThemeToggled;
 
@@ -72,6 +78,8 @@ namespace UI.Controls.Layout
                 // في Widget: نخفي الأزرار اللي مش محتاجينها (المساحة صغيرة)
                 // نخلي بس 🔙 + ✕
                 btnSettings.Visible = !_isWidgetMode;
+                btnAdhkar.Visible = !_isWidgetMode;
+                btnTracking.Visible = !_isWidgetMode;
                 btnTheme.Visible = !_isWidgetMode;
                 btnLang.Visible = !_isWidgetMode;
                 btnMinimize.Visible = !_isWidgetMode;
@@ -89,6 +97,8 @@ namespace UI.Controls.Layout
         {
             // ── أزرار ──
             btnPin.Click += (s, e) => PinClicked?.Invoke(this, EventArgs.Empty);
+            btnTracking.Click += (s, e) => TrackingClicked?.Invoke(this, EventArgs.Empty);
+            btnAdhkar.Click += (s, e) => AdhkarClicked?.Invoke(this, EventArgs.Empty);
             btnSettings.Click += (s, e) => SettingsClicked?.Invoke(this, EventArgs.Empty);
             btnTheme.Click += (s, e) =>
             {
@@ -149,7 +159,7 @@ namespace UI.Controls.Layout
             Color hoverBg = ThemeColorUtils.WithAlpha(t.Accent1, 30);
             Color pressedBg = ThemeColorUtils.WithAlpha(t.Accent1, 50);
 
-            foreach (var btn in new[] { btnPin, btnSettings, btnTheme, btnLang, btnMinimize })
+            foreach (var btn in new[] { btnPin, btnTracking, btnAdhkar, btnSettings, btnTheme, btnLang, btnMinimize })
             {
                 btn.FillColor = Color.Transparent;
                 btn.ForeColor = t.TextSecondary;

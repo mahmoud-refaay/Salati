@@ -1,0 +1,192 @@
+# 📢 بوستات تجميع فريق مشروع Salati
+
+> [!TIP]
+> جهزتلك **3 نسخ** حسب المكان اللي هتنشر فيه. انسخ اللي يناسبك وابعته.
+
+---
+
+## 1️⃣ النسخة الكاملة (Facebook Groups / LinkedIn)
+
+> الأنسب للجروبات الكبيرة زي: مبرمجين العرب، C# Arabic Community، .NET Developers Egypt
+
+```
+🕌 دعوة للمشاركة في مشروع Open Source — تطبيق تنبيه الصلاة (Salati)
+
+السلام عليكم ورحمة الله 👋
+
+أنا محمود أحمد، .NET Developer، وحابب أبدأ مشروع open source مع فريق صغير — والمشروع إن شاء الله فيه فايدة دينية ودنيوية 🤲
+
+━━━━━━━━━━━━━━━━━━
+
+📌 إيه هو المشروع؟
+
+تطبيق ديسكتوب لـ Windows اسمه "Salati" — بينبه المستخدم على الصلاة قبل معادها.
+
+الفكرة إن ناس كتير بتقعد قدام الكمبيوتر ساعات طويلة سواء شغل أو دراسة أو gaming وبتنسى الصلاة أو بتاخد بالها إن الوقت فات. التطبيق بيحل المشكلة دي — بينبهك قبل كل صلاة بالدقائق اللي أنت تحددها.
+
+━━━━━━━━━━━━━━━━━━
+
+🎯 أهم الميزات اللي هنبنيها:
+
+✅ جلب مواعيد الصلاة تلقائي من API (حسب الدولة والمدينة)
+✅ أو إدخال المواعيد يدوي — المستخدم متحكم بالكامل
+✅ تنبيه مخصص قبل كل صلاة (مثلاً: الظهر قبلها 10 دقايق، المغرب قبلها 5)
+✅ صوت أذان + Popup Notification
+✅ التطبيق يشتغل في الـ System Tray (في الخلفية)
+✅ يشتغل مع بداية الويندوز تلقائي
+✅ دعم عربي وإنجليزي
+✅ حفظ إعدادات المستخدم محلياً (بدون حساب أو تسجيل دخول)
+
+━━━━━━━━━━━━━━━━━━
+
+🛠️ Tech Stack:
+
+• C# (.NET 9)
+• WinForms
+• 3-Tier Architecture (DAL → BLL → UI)
+• Aladhan API (مواعيد الصلاة)
+• System.Text.Json (حفظ الإعدادات)
+• NAudio (تشغيل الأصوات)
+• Git & GitHub
+
+━━━━━━━━━━━━━━━━━━
+
+👥 محتاج إيه بالظبط؟
+
+الفريق المطلوب 2-3 أشخاص:
+
+1️⃣ مطور C# — يشتغل على الـ Business Logic:
+   • إدارة مواعيد الصلاة
+   • جدولة التنبيهات بالـ Timer
+   • تشغيل الأصوات
+
+2️⃣ مطور C# — يشتغل على الـ Data Access:
+   • التواصل مع Aladhan API (HttpClient + JSON parsing)
+   • حفظ/قراءة الإعدادات من ملف JSON
+   • التعامل مع Windows Registry (startup)
+
+3️⃣ (اختياري) UI/UX + Testing:
+   • تحسين شكل الواجهات
+   • الـ Localization (عربي/إنجليزي)
+   • اختبار التطبيق
+
+━━━━━━━━━━━━━━━━━━
+
+📋 المطلوب منك:
+
+• تعرف أساسيات C# و OOP
+• عندك فكرة عن Git & GitHub (أو حابب تتعلم)
+• تقدر تلتزم بوقت — حتى لو ساعة يومياً
+• حابب تشتغل في فريق وتطور نفسك
+
+━━━━━━━━━━━━━━━━━━
+
+🎁 إيه اللي هتستفيده؟
+
+• مشروع حقيقي يتحط في الـ CV والـ Portfolio
+• تتعلم تشتغل في فريق بـ Git (branches, pull requests, code review)
+• تطبق 3-Tier Architecture عملي
+• تتعلم API integration و JSON handling
+• وإن شاء الله أجر الصدقة الجارية لو التطبيق ساعد حد يفتكر صلاته 🤲
+
+━━━━━━━━━━━━━━━━━━
+
+🔗 الـ Repo هيكون جاهز ومنظم على GitHub بمجرد ما يتكون الفريق.
+
+لو مهتم:
+📩 ابعتلي رسالة أو اكتب كومنت فيه:
+   1. اسمك
+   2. مستواك في C#
+   3. إيه الجزء اللي حابب تشتغل عليه
+
+بسم الله نبدأ 🚀
+```
+
+---
+
+## 2️⃣ النسخة المختصرة (Telegram / Discord)
+
+> الأنسب للجروبات اللي الناس فيها بتفضل الرسائل القصيرة
+
+```
+🕌 محتاج فريق صغير لمشروع Open Source
+
+السلام عليكم 👋
+
+بشتغل على تطبيق ديسكتوب لـ Windows بـ C# اسمه Salati — تنبيه صلاة بينبهك قبل كل صلاة بالدقائق اللي تحددها.
+
+🛠 Tech: C# | .NET 9 | WinForms | 3-Tier | API | JSON
+📌 المطلوب: 2-3 مطورين C# (أساسيات OOP + Git)
+
+الميزات:
+• مواعيد صلاة تلقائي من API أو يدوي
+• تنبيه مخصص بالدقيقة لكل صلاة
+• صوت أذان + System Tray + يشتغل مع الويندوز
+• عربي + إنجليزي
+
+الاستفادة:
+✅ مشروع حقيقي للـ CV
+✅ شغل جماعي بـ Git & GitHub
+✅ وإن شاء الله صدقة جارية 🤲
+
+مهتم؟ ابعتلي رسالة بـ: اسمك + مستواك + إيه الجزء اللي تحب تشتغل عليه 👇
+```
+
+---
+
+## 3️⃣ النسخة الإنجليزية (Reddit / GitHub / International Discord)
+
+> لو حابب تنشر في مجتمعات إنجليزية
+
+```
+🕌 Looking for contributors — Salati (Prayer Reminder for Windows)
+
+Hey everyone! 👋
+
+I'm building an open-source Windows desktop app called **Salati** — a prayer time reminder that alerts you before each prayer by a custom number of minutes.
+
+**The Problem:** Many people sit at their computers for hours and miss prayer times. This app runs in the background and sends you a heads-up before it's time.
+
+**Features (v1.0):**
+• Auto-fetch prayer times via Aladhan API or manual input
+• Custom pre-prayer alerts per prayer (e.g., Dhuhr: 10 min before, Asr: 5 min)
+• Adhan sound + popup notification
+• System tray integration
+• Starts with Windows
+• Arabic & English support
+• Local settings (JSON, no account needed)
+
+**Tech Stack:** C# | .NET 9 | WinForms | 3-Tier Architecture | NAudio
+
+**Looking for:**
+- 1-2 C# developers (OOP basics + willingness to learn)
+- Familiarity with Git is a plus
+
+**What you'll gain:**
+✅ A real-world project for your portfolio
+✅ Team collaboration experience with Git
+✅ API integration & clean architecture practice
+
+If interested, comment or DM me with:
+1. Your name
+2. Your C# experience level
+3. Which part interests you most
+
+Let's build something meaningful together! 🚀
+```
+
+---
+
+## 💡 نصائح للنشر
+
+| النصيحة | التفاصيل |
+|---|---|
+| **الجروبات المقترحة** | مبرمجين العرب (FB) — C# Arabic Community — .NET Egypt — Ain Shams CS — أي جروب برمجة محلي |
+| **التوقيت** | انشر الساعة 8-10 مساءً (أكتر وقت الناس بتكون أونلاين) |
+| **الصورة** | لو تقدر تعمل صورة cover بسيطة للمشروع هتجذب انتباه أكتر |
+| **التفاعل** | رد على كل كومنت بسرعة — ده بيخلي البوست يوصل لناس أكتر |
+| **المتابعة** | أول ما حد يبعتلك، أضفه في جروب Telegram أو Discord للتنسيق |
+| **GitHub أولاً** | قبل ما تنشر، يفضل الـ Repo يكون جاهز بـ README + المهام كـ Issues — ده بيدي انطباع احترافي |
+
+> [!IMPORTANT]
+> **قبل ما تنشر البوست:** الأفضل تعمل الـ GitHub Repo الأول وتحط فيه README كويس وتقسم المهام كـ Issues. لما حد يسألك عن الـ repo تبقى جاهز تديهوله — ده بيفرق جداً في الانطباع الأول.

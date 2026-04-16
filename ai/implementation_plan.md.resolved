@@ -1,0 +1,100 @@
+# 🎨 خطة التحسينات البصرية والأنيمشن
+
+## الأهداف
+1. **Splash Screen** — أنيمشن احترافي جديد (الحالي متقطع)
+2. **Dashboard Animations** — entrance animations للكروت
+3. **Theme تغيير** — الثيم الفاتح (Golden Dawn) مش مناسب + تحسين الداكن (Midnight Serenity)
+
+---
+
+## 1. Splash Screen — أنيمشن جديد 🚀
+
+> [!IMPORTANT]
+> الأنيمشن الحالي مجرد fade in/out — مفيش حركة. هنعمل **سيكوينس احترافي:**
+
+### السيناريو المقترح:
+```
+الشاشة مظلمة (Opacity = 0)
+     ↓ 400ms
+🕌 يظهر من أعلى (SlideIn + FadeIn) — كأنه بينزل من السما
+     ↓ 200ms
+"Salati" يظهر بـ FadeIn
+     ↓ 150ms
+"صلاتي" يظهر بـ FadeIn
+     ↓ 200ms
+الآية تظهر بـ FadeIn خفيف
+     ↓ 
+Progress Bar يبدأ التحميل
+     ↓ 
+لما يوصل 100% — 🕌 Pulse
+     ↓ 300ms
+Fade Out الكل
+```
+
+### التغييرات:
+#### [MODIFY] [frmSplash.cs](file:///D:/My_Code/learn%20code/Projects/Salati/Salati/UI/Forms/frmSplash.cs)
+- كل العناصر `Visible = false` في البداية
+- أنيمشن sequence: Mosque slide → Title fade → Arabic fade → Quran fade
+- Progress bar يتحرك مع الـ loading
+- عند 100%: `Pulse` على المسجد
+- Fade out smooth
+
+---
+
+## 2. Dashboard Entrance Animations 🎬
+
+### التغييرات:
+#### [MODIFY] [frmMain.cs](file:///D:/My_Code/learn%20code/Projects/Salati/Salati/UI/Forms/frmMain.cs)
+عند أول ظهور (بعد الـ Splash):
+- **nextPrayer (Hero Card)** — `SlideIn(FromTop, 350ms)` 
+- **Prayer Cards (5 كروت)** — `SlideIn(FromBottom)` بـ **stagger 80ms** (كل بطاقة تدخل بعد اللي قبلها)
+- **Hover Scale** على كل الكروت — `AttachHoverScale(1.03f)`
+
+---
+
+## 3. Theme تحسين 🎨
+
+### الثيم الفاتح — "Golden Dawn" → **"Desert Sand"**
+
+> [!WARNING]
+> الثيم الحالي بيج/كريمي — ممكن يكون مقبول بس المستخدم عايز حاجة مختلفة. الحل: ثيم **رملي صحراوي غامق** (مش أبيض ولا فاتح) — ألوان دافئة مريحة للعين.
+
+**الفكرة الجديدة — "Desert Sand":**
+| العنصر | اللون الحالي | اللون الجديد |
+|--------|-------------|-------------|
+| BgPrimary | `#F5F1E9` (بيج فاتح) | `#2B2520` (بني غامق دافئ) |
+| BgSecondary | `#EBE4D8` (كريمي) | `#1F1B17` (بني أغمق) |
+| BgSurface | `#FAF7F1` (off-white) | `#352F28` (بني surface) |
+| BgCard | `#FCF9F4` (كريمي) | `#3D3630` (بني كارت) |
+| TextPrimary | `#232332` (أسود) | `#E8DDD0` (بيج فاتح) |
+| Accent1 | `#145A41` (أخضر غامق) | `#D4A854` (ذهبي دافئ) |
+| Accent2 | `#A88214` (ذهبي) | `#C17B3A` (برتقالي دافئ) |
+
+**النتيجة:** ثيم "صحراوي ليلي" دافئ ومريح — مش فاتح ومش أسود.
+
+### الثيم الداكن — "Midnight Serenity" تحسينات
+
+| العنصر | التحسين |
+|--------|---------|
+| Hero Card gradient | لمسة أخضر أقوى شوية `(12, 50, 38)` بدل `(15, 45, 35)` |
+| Card shadow | عمق أكبر `depth: 5` بدل `4` |
+| BgCard | أفتح شوية `(30, 36, 44)` لتباين أحسن |
+
+---
+
+## ترتيب التنفيذ
+
+1. ✅ تحسين الثيمات (BuiltInThemes.cs) — لأنه بيأثر على كل حاجة
+2. ✅ Splash أنيمشن
+3. ✅ Dashboard entrance animations
+4. ✅ Build + test
+
+---
+
+## Verification Plan
+
+### Manual Verification
+1. شغّل البرنامج — الـ Splash لازم يكون smooth ومتسلسل
+2. لما الداشبورد يفتح — الكروت تدخل بأنيمشن
+3. اضغط على الثيم — الثيم الجديد "Desert Sand" مريح للعين
+4. Hover على الكروت — تكبر خفيف

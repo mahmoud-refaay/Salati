@@ -36,6 +36,10 @@ namespace UI.Forms
             traySettingsItem = new ToolStripMenuItem();
             traySep2 = new ToolStripSeparator();
             trayExitItem = new ToolStripMenuItem();
+            trackingPanel = new Controls.Card.ucTrackingPanel();
+            pnlOverlay2 = new Panel();
+            adhkarPanel = new Controls.Card.ucAdhkarPanel();
+            pnlOverlay3 = new Panel();
 
             pnlMainBg.SuspendLayout();
             pnlDashboard.SuspendLayout();
@@ -47,6 +51,10 @@ namespace UI.Forms
             pnlMainBg.Controls.Add(pnlDashboard);
             pnlMainBg.Controls.Add(lblWidgetInfo);
             pnlMainBg.Controls.Add(pnlOverlay);
+            pnlMainBg.Controls.Add(pnlOverlay2);
+            pnlMainBg.Controls.Add(pnlOverlay3);
+            pnlMainBg.Controls.Add(trackingPanel);
+            pnlMainBg.Controls.Add(adhkarPanel);
             pnlMainBg.Controls.Add(settingsPanel);
             pnlMainBg.Controls.Add(infoBar);
             pnlMainBg.Controls.Add(titleBar);
@@ -134,6 +142,46 @@ namespace UI.Forms
             pnlOverlay.Visible = false;
 
             //
+            // trackingPanel — مخفي — يسلايد من اليمين
+            //
+            trackingPanel.Location = new Point(700, 42);
+            trackingPanel.Name = "trackingPanel";
+            trackingPanel.Size = new Size(420, 458);
+            trackingPanel.TabIndex = 5;
+            trackingPanel.Visible = false;
+
+            //
+            // pnlOverlay2 — شفاف خلف Tracking
+            //
+            pnlOverlay2.BackColor = Color.FromArgb(120, 0, 0, 0);
+            pnlOverlay2.Dock = DockStyle.Fill;
+            pnlOverlay2.Location = new Point(0, 42);
+            pnlOverlay2.Name = "pnlOverlay2";
+            pnlOverlay2.Size = new Size(700, 426);
+            pnlOverlay2.TabIndex = 6;
+            pnlOverlay2.Visible = false;
+
+            //
+            // adhkarPanel — مخفي — يسلايد من اليمين
+            //
+            adhkarPanel.Location = new Point(700, 42);
+            adhkarPanel.Name = "adhkarPanel";
+            adhkarPanel.Size = new Size(420, 458);
+            adhkarPanel.TabIndex = 7;
+            adhkarPanel.Visible = false;
+
+            //
+            // pnlOverlay3 — شفاف خلف Adhkar
+            //
+            pnlOverlay3.BackColor = Color.FromArgb(120, 0, 0, 0);
+            pnlOverlay3.Dock = DockStyle.Fill;
+            pnlOverlay3.Location = new Point(0, 42);
+            pnlOverlay3.Name = "pnlOverlay3";
+            pnlOverlay3.Size = new Size(700, 426);
+            pnlOverlay3.TabIndex = 8;
+            pnlOverlay3.Visible = false;
+
+            //
             // lblWidgetInfo — يظهر في Widget Mode فقط
             //
             lblWidgetInfo.BackColor = Color.Transparent;
@@ -215,6 +263,10 @@ namespace UI.Forms
         private Controls.Settings.ucSettingsPanel settingsPanel;
         private Panel pnlOverlay;
         private Label lblWidgetInfo;
+        private Controls.Card.ucTrackingPanel trackingPanel;
+        private Panel pnlOverlay2;
+        private Controls.Card.ucAdhkarPanel adhkarPanel;
+        private Panel pnlOverlay3;
         private NotifyIcon notifyIcon;
         private ContextMenuStrip trayMenu;
         private ToolStripMenuItem trayHeaderItem;

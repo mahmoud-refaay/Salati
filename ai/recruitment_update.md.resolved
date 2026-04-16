@@ -1,0 +1,104 @@
+# 📱 Salati — رسائل التوظيف (تحديث + جروبات جديدة)
+
+---
+
+## رسالة 1: رد على رسالتك القديمة (Reply/React)
+
+> انسخها وابعتها كـ **رد على رسالتك السابقة** في الجروبات اللي نزلت فيها قبل كده
+
+```
+تحديث 🔥
+
+الحمد لله خلّصنا مرحلة التخطيط والتصميم!
+
+✅ تم تصميم 9 شاشات للتطبيق
+✅ تم توثيق المشروع بالكامل
+✅ تم تصميم قاعدة البيانات (8 جداول)
+✅ الجروب الرسمي جاهز
+
+🕌 أي حد حابب ينضم لفريق التطوير:
+👇👇👇
+https://t.me/+vcAJ88vJKjI5MmM0
+
+هتلاقي في الجروب تصميم الشاشات + التقنيات + كل التفاصيل.
+أي مستوى مرحب بيه 🤝
+```
+
+---
+
+## رسالة 2: رسالة جديدة لجروبات تانية
+
+> انسخها وابعتها في جروبات جديدة ما نزلتش فيها قبل كده
+
+```
+السلام عليكم 👋
+
+🕌 بنبني مشروع Open Source اسمه Salati — تطبيق ديسكتوب بينبّه المستخدم على مواعيد الصلاة.
+
+الفكرة:
+• بيشتغل في الخلفية (System Tray)
+• بينبهك قبل الصلاة بأذان
+• مواعيد أوتوماتيك من API أو يدوي
+• عربي + إنجليزي + ثيم داكن
+
+التقنيات:
+• C# — .NET 9 — WinForms
+• SQL Server + Stored Procedures
+• 3-Tier Architecture
+• Guna.UI2 (UI Library)
+
+المشروع متخطط بالكامل:
+✅ 9 شاشات مصممة
+✅ قاعدة بيانات 8 جداول
+✅ Documentation كاملة
+✅ جاهز للتنفيذ
+
+محتاجين:
+🔧 Backend — C# + ADO.NET
+🎨 Frontend — WinForms + Guna.UI2
+🗄 Database — T-SQL
+🧪 Testing
+
+⭐ أي مستوى مرحب بيه — حتى لو مبتدئ!
+
+انضم للفريق 👇
+https://t.me/+vcAJ88vJKjI5MmM0
+```
+
+---
+
+## رسالة 3: نسخة إنجليزية (لجروبات إنجليزي)
+
+```
+Assalamu Alaikum 👋
+
+🕌 We're building "Salati" — an open-source Windows desktop app for prayer time reminders.
+
+What it does:
+• Runs in background (System Tray)
+• Alerts before prayer with Adhan sound
+• Auto prayer times via API or manual input
+• Arabic + English + Dark/Light theme
+
+Tech Stack:
+• C# — .NET 9 — WinForms + Guna.UI2
+• SQL Server + T-SQL + Stored Procedures
+• 3-Tier Architecture (DAL → BLL → UI)
+
+Current status:
+✅ 9 screens designed
+✅ 8 database tables planned
+✅ Full documentation ready
+✅ Ready to start coding
+
+Looking for:
+🔧 Backend devs (C#)
+🎨 UI devs (WinForms)
+🗄 DB devs (SQL Server)
+🧪 Testers
+
+All levels welcome! 🤝
+
+Join us 👇
+https://t.me/+vcAJ88vJKjI5MmM0
+```

@@ -1,0 +1,132 @@
+# 🕌 Salati — Team Task Distribution
+
+> انسخ الرسالة اللي تحت وابعتها في الجروب
+
+---
+
+## ✉️ الرسالة
+
+```
+السلام عليكم يا شباب 👋
+
+أنا خلّصت مشروع جديد اسمه **Salati (صلاتي)** 🕌
+تطبيق Desktop بيعرض مواعيد الصلاة + تنبيهات الأذان + Widget mode
+
+📋 التقنيات المستخدمة:
+• C# / .NET 10 / WinForms
+• SQL Server + Stored Procedures
+• Guna2 UI Framework
+• 3-Tier Architecture (DAL → BLL → UI)
+• Aladhan API (لجلب مواعيد الصلاة)
+• NAudio (لتشغيل أصوات الأذان)
+
+✅ حالة المشروع:
+• طبقة الـ UI خلصت بالكامل (3 شاشات + 14 كنترول)
+• Theme System (Dark + Light) ✅
+• Language System (AR + EN) ✅
+• الشاشات كلها جاهزة ومستنية الربط
+
+══════════════════════════
+📌 المهام المطلوبة:
+══════════════════════════
+
+🔵 المهمة 1: Database (قاعدة البيانات)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- إنشاء SalatiDB على SQL Server
+- إنشاء 7 جداول (Locations, DailyPrayerTimes, Sounds, AlertConfigs, AlertLog, PrayerTracking, AppSettings)
+- كتابة ~30 Stored Procedure (CRUD + Stats)
+- إدخال البيانات الأولية (Seed Data)
+- الكود والجداول موثقة بالكامل في ملف DATABASE.md
+
+المتطلبات: SQL Server + T-SQL
+
+🟢 المهمة 2: DAL (Data Access Layer)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- كتابة clsDataAccessHelper (ADO.NET wrapper)
+- كتابة clsHttpHelper (HttpClient wrapper)
+- كتابة Data classes:
+  • clsPrayerTimeData (التواصل مع Aladhan API)
+  • clsDailyPrayerTimeData (CRUD → الجدول)
+  • clsLocationData
+  • clsAlertConfigData
+  • clsSoundData
+  • clsAppSettingsData
+  • clsAlertLogData
+- نفس نمط DVLD بالظبط (SP execution + DataTable)
+
+المتطلبات: C# + ADO.NET + HttpClient
+
+🟡 المهمة 3: BLL (Business Logic Layer)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- clsPrayerTimeManager → جلب المواعيد (API + Manual + Cache)
+- clsAlertScheduler → جدولة التنبيهات بالـ Timer (كل 30 ثانية)
+- clsSoundPlayer → تشغيل أصوات الأذان (NAudio)
+- clsSettingsManager → validation + defaults
+
+المتطلبات: C# + NAudio + async/await
+
+🟠 المهمة 4: Integration (ربط UI بالـ BLL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- ربط frmSplash → تحميل الإعدادات + المواعيد
+- ربط frmMain → عرض المواعيد الحقيقية + Countdown
+- ربط Settings → حفظ/قراءة الإعدادات
+- ربط frmAlert → تشغيل عند وقت الصلاة
+- ربط Tray Icon → شغل في الخلفية
+- كل مكان محتاج ربط مكتوب عليه TODO: BLL
+
+المتطلبات: فاهم الـ UI + BLL
+
+🔴 المهمة 5: Logging + Error Handling
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- clsEventLogger → Windows Event Viewer
+- clsErrorLogData → حفظ الأخطاء في DB
+- Global Exception Handler في Program.cs
+- clsAlertLogData → سجل التنبيهات
+
+المتطلبات: C# + Event Viewer + try/catch
+
+══════════════════════════
+
+⏰ الجدول الزمني المقترح:
+• المهمة 1 (DB): 1-2 يوم
+• المهمة 2 (DAL): 2-3 أيام
+• المهمة 3 (BLL): 2-3 أيام
+• المهمة 4 (Integration): 2 أيام
+• المهمة 5 (Logging): 1 يوم
+
+📝 ملاحظات مهمة:
+1. المشروع مبني على 3-Tier Architecture (زي DVLD)
+2. كل الـ documentation جاهز ومفصّل
+3. المهام 1+2 ممكن تتعمل بالتوازي مع 3
+4. المهمة 4 لازم تستنى 2+3 يخلصوا
+5. الـ Repo جاهز هبعتهولكم
+
+👤 مين يقدر ياخد مهمة من دول؟ ابعت رقم المهمة 🚀
+```
+
+---
+
+## 📊 ملخص توزيع المهام
+
+| المهمة | المسؤول | يعتمد على | المدة المقدرة |
+|--------|---------|-----------|---------------|
+| 🔵 1. Database | _____ | لا شيء | 1-2 يوم |
+| 🟢 2. DAL | _____ | المهمة 1 | 2-3 أيام |
+| 🟡 3. BLL | _____ | المهمة 2 | 2-3 أيام |
+| 🟠 4. Integration | _____ | المهمة 2 + 3 | 2 يوم |
+| 🔴 5. Logging | _____ | المهمة 2 | 1 يوم |
+
+## 🔀 خط سير العمل المقترح
+
+```
+المهمة 1 (DB)
+    ↓
+المهمة 2 (DAL) ←→ المهمة 3 (BLL) [بالتوازي]
+    ↓                    ↓
+    └────→ المهمة 4 (Integration) ←────┘
+                ↓
+        المهمة 5 (Logging)
+```
+
+> **نصيحة:** لو الفريق صغير (2-3 أشخاص)، ممكن شخص واحد ياخد DB + DAL
+> وشخص تاني ياخد BLL + Integration

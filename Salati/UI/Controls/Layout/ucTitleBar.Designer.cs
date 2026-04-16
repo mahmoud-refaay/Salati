@@ -31,7 +31,9 @@ namespace UI.Controls.Layout
             lblLogo = new Label();
             lblAppTitle = new Label();
             btnPin = new Guna.UI2.WinForms.Guna2Button();
+            btnTracking = new Guna.UI2.WinForms.Guna2Button();
             btnSettings = new Guna.UI2.WinForms.Guna2Button();
+            btnAdhkar = new Guna.UI2.WinForms.Guna2Button();
             btnTheme = new Guna.UI2.WinForms.Guna2Button();
             btnLang = new Guna.UI2.WinForms.Guna2Button();
             btnMinimize = new Guna.UI2.WinForms.Guna2Button();
@@ -44,6 +46,8 @@ namespace UI.Controls.Layout
             pnlBackground.Controls.Add(lblLogo);
             pnlBackground.Controls.Add(lblAppTitle);
             pnlBackground.Controls.Add(btnPin);
+            pnlBackground.Controls.Add(btnTracking);
+            pnlBackground.Controls.Add(btnAdhkar);
             pnlBackground.Controls.Add(btnSettings);
             pnlBackground.Controls.Add(btnTheme);
             pnlBackground.Controls.Add(btnLang);
@@ -105,6 +109,48 @@ namespace UI.Controls.Layout
             btnPin.TabIndex = 2;
             btnPin.Text = "📌";
             btnPin.UseTransparentBackground = true;
+            // 
+            // btnAdhkar — 📿 فتح لوحة الأذكار
+            // 
+            btnAdhkar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAdhkar.Animated = true;
+            btnAdhkar.BackColor = Color.Transparent;
+            btnAdhkar.BorderRadius = 6;
+            btnAdhkar.CustomizableEdges = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            btnAdhkar.FillColor = Color.Transparent;
+            btnAdhkar.Font = new Font("Segoe UI Emoji", 11F);
+            btnAdhkar.ForeColor = Color.FromArgb(139, 148, 158);
+            btnAdhkar.HoverState.FillColor = Color.FromArgb(30, 27, 138, 107);
+            btnAdhkar.HoverState.ForeColor = Color.FromArgb(230, 237, 243);
+            btnAdhkar.Location = new Point(402, 7);
+            btnAdhkar.Name = "btnAdhkar";
+            btnAdhkar.PressedColor = Color.FromArgb(50, 27, 138, 107);
+            btnAdhkar.ShadowDecoration.CustomizableEdges = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            btnAdhkar.Size = new Size(32, 32);
+            btnAdhkar.TabIndex = 9;
+            btnAdhkar.Text = "📿";
+            btnAdhkar.UseTransparentBackground = true;
+            // 
+            // btnTracking — 📊 فتح لوحة التتبع
+            // 
+            btnTracking.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnTracking.Animated = true;
+            btnTracking.BackColor = Color.Transparent;
+            btnTracking.BorderRadius = 6;
+            btnTracking.CustomizableEdges = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            btnTracking.FillColor = Color.Transparent;
+            btnTracking.Font = new Font("Segoe UI Emoji", 11F);
+            btnTracking.ForeColor = Color.FromArgb(139, 148, 158);
+            btnTracking.HoverState.FillColor = Color.FromArgb(30, 27, 138, 107);
+            btnTracking.HoverState.ForeColor = Color.FromArgb(230, 237, 243);
+            btnTracking.Location = new Point(438, 7);
+            btnTracking.Name = "btnTracking";
+            btnTracking.PressedColor = Color.FromArgb(50, 27, 138, 107);
+            btnTracking.ShadowDecoration.CustomizableEdges = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            btnTracking.Size = new Size(32, 32);
+            btnTracking.TabIndex = 8;
+            btnTracking.Text = "📊";
+            btnTracking.UseTransparentBackground = true;
             // 
             // btnSettings
             // 
@@ -229,10 +275,12 @@ namespace UI.Controls.Layout
         private Label lblLogo;
         private Label lblAppTitle;
         private Guna.UI2.WinForms.Guna2Button btnPin;
+        private Guna.UI2.WinForms.Guna2Button btnTracking;
         private Guna.UI2.WinForms.Guna2Button btnSettings;
         private Guna.UI2.WinForms.Guna2Button btnTheme;
         private Guna.UI2.WinForms.Guna2Button btnLang;
         private Guna.UI2.WinForms.Guna2Button btnMinimize;
         private Guna.UI2.WinForms.Guna2Button btnClose;
+        private Guna.UI2.WinForms.Guna2Button btnAdhkar;
     }
 }

@@ -1,0 +1,298 @@
+# 📿 Prompt — Adhkar, Hijri Calendar, Morning/Evening Adhkar
+
+**انسخ كل الكلام اللي تحت وابعته في شات جديد:**
+
+---
+
+```
+## 📖 اقرأ الملفات دي الأول (بالترتيب):
+
+1. `D:\My_Code\learn code\Projects\Salati\doc\basics\07_AI_CONTEXT.md` ← معلومات المشروع الكاملة
+2. `D:\My_Code\learn code\Projects\Salati\doc\DB\Script\SalatiDB_PrayerTracking_SPs.sql` ← الـ SPs + جدول Adhkar + Seed Data (الجزء الجديد من سطر 310)
+3. `D:\My_Code\learn code\AI-Skills\desktop\flicker-fix.md` ← حلول الفليكر
+
+## ⚠️⚠️⚠️ تحذيرات هامة — اقرأها قبل أي كود! ⚠️⚠️⚠️
+
+### 🔴 تحذير 1: لا تنشئ DAL أو BLL!
+**هذه الميزات UI فقط حالياً.** لا تنشئ أي ملفات في DAL أو BLL.
+كل الداتا تكون Mock في الـ UI نفسه مع تعليقات `// TODO: BLL`.
+لما نبني طبقة الـ BLL لاحقاً — هنربط.
+
+### 🔴 تحذير 2: لا تكسر الكود الحالي!
+المشروع شغال بكفاءة عالية — مفيش فليكر، مفيش بطء.
+**أي كود تضيفه لازم يكون بنفس المستوى بالظبط.**
+
+### 🔴 تحذير 3: اتبع الأنماط الموجودة بالحرف!
+- **قبل ما تكتب أي control:** اقرأ `ucPrayerCard.cs` أو `ucPrayerTrackRow.cs` كمرجع.
+- نفس الـ SetStyle، نفس الـ sections، نفس الأسلوب.
+- **Designer.cs:** لا تستخدم `new()` — لازم الـ constructor الكامل:
+  ✅ `new Guna.UI2.WinForms.Suite.CustomizableEdges()`
+  ❌ `new()`
+
+### 🔴 تحذير 4: ال UI هو مشروع واحد فقط!
+كل الكنترولات والشاشات تحت `UI/Controls/` و `UI/Forms/`.
+**مفيش مجلدات DAL و BLL جوا UI!**
+
+## ═══════════════════════════════════════════════
+## 📋 الميزات المطلوبة (3 ميزات):
+## ═══════════════════════════════════════════════
+
+### ════════════════════════════════════════════
+### الميزة 1: 📿 إشعارات أذكار/أحاديث في الخلفية
+### ════════════════════════════════════════════
+
+**الفكرة:** البرنامج شغال في الـ Background/Tray → كل X دقيقة يطلع Notification بحديث أو ذكر.
+
+**التنفيذ (Mock — UI only):**
+
+#### خطوة 1: أنشئ `UI/Core/clsAdhkarService.cs`
+```csharp
+/// <summary>
+/// خدمة الأذكار — تدير Timer في الخلفية وتطلع إشعارات.
+/// حالياً Mock — لاحقاً هتتربط بـ BLL.
+/// </summary>
+public static class clsAdhkarService
+{
+    // Mock data — لحد ما نربط الـ BLL
+    private static readonly (string TextAr, string Source, int Category)[] _mockAdhkar = new[]
+    {
+        ("سبحان الله وبحمده، سبحان الله العظيم", "متفق عليه", 2),
+        ("اللهم صلِّ وسلم على نبينا محمد ﷺ", null, 3),
+        ("إنما الأعمال بالنيات", "متفق عليه", 1),
+        ("لا حول ولا قوة إلا بالله", "متفق عليه", 2),
+        ("ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة", "سورة البقرة", 4),
+        // ... أضف 10+ على الأقل من الـ seed data الموجود في SQL
+    };
+
+    private static System.Windows.Forms.Timer? _timer;
+    private static NotifyIcon? _notifyIcon;
+    private static int _intervalMinutes = 30;
+
+    /// <summary>يشغّل الخدمة — يتنادى مرة في frmMain constructor</summary>
+    public static void Start(NotifyIcon notifyIcon, int intervalMinutes = 30)
+    {
+        _notifyIcon = notifyIcon;
+        _intervalMinutes = intervalMinutes;
+
+        _timer?.Stop();
+        _timer = new System.Windows.Forms.Timer
+        {
+            Interval = _intervalMinutes * 60 * 1000  // دقائق → ملي ثانية
+        };
+        _timer.Tick += (s, e) => ShowRandomAdhkar();
+        _timer.Start();
+    }
+
+    public static void Stop() { _timer?.Stop(); }
+
+    public static void SetInterval(int minutes)
+    {
+        _intervalMinutes = minutes;
+        if (_timer != null)
+            _timer.Interval = _intervalMinutes * 60 * 1000;
+    }
+
+    private static void ShowRandomAdhkar()
+    {
+        // TODO: BLL — clsAdhkarManager.GetRandom()
+        var random = new Random();
+        var item = _mockAdhkar[random.Next(_mockAdhkar.Length)];
+
+        string emoji = item.Category switch
+        {
+            1 => "📖",  // حديث
+            2 => "📿",  // ذكر
+            3 => "🤲",  // صلاة على النبي
+            4 => "🕌",  // دعاء
+            _ => "📿"
+        };
+
+        string title = $"{emoji} صلاتي";
+        string body = item.Source != null
+            ? $"{item.TextAr}\n— {item.Source}"
+            : item.TextAr;
+
+        _notifyIcon?.ShowBalloonTip(5000, title, body, ToolTipIcon.None);
+    }
+}
+```
+
+#### خطوة 2: ربطها في `frmMain.cs`
+```csharp
+// في Constructor بعد clsUIEngine.ApplyAll(this):
+clsAdhkarService.Start(notifyIcon, 30);  // كل 30 دقيقة
+```
+
+**مش محتاج شاشات جديدة — إشعار system فقط!**
+
+---
+
+### ════════════════════════════════════════════
+### الميزة 2: 📅 التقويم الهجري في ucInfoBar
+### ════════════════════════════════════════════
+
+**الفكرة:** عرض التاريخ الهجري في الشريط السفلي بدل بيانات ثابتة.
+
+**التنفيذ (مفيش DB — حساب من .NET):**
+
+#### خطوة 1: عدّل `UI/Controls/Layout/ucInfoBar.cs`
+
+⚠️ **اقرأ الملف الأول — لا تكسر اللي موجود!**
+
+أضف method جديدة:
+```csharp
+/// <summary>يحسب التاريخ الهجري من System.Globalization</summary>
+private string GetHijriDate()
+{
+    var hijri = new System.Globalization.HijriCalendar();
+    var today = DateTime.Today;
+
+    int hYear = hijri.GetYear(today);
+    int hMonth = hijri.GetMonth(today);
+    int hDay = hijri.GetDayOfMonth(today);
+
+    // أسماء الشهور الهجرية
+    string[] monthsAr = { "", "محرم", "صفر", "ربيع الأول", "ربيع الثاني",
+        "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان",
+        "رمضان", "شوال", "ذو القعدة", "ذو الحجة" };
+
+    string[] monthsEn = { "", "Muharram", "Safar", "Rabi Al-Awwal", "Rabi Al-Thani",
+        "Jumada Al-Ula", "Jumada Al-Thani", "Rajab", "Sha'ban",
+        "Ramadan", "Shawwal", "Dhul-Qi'dah", "Dhul-Hijjah" };
+
+    bool isAr = clsLanguageManager.Code == "ar";
+    string monthName = isAr ? monthsAr[hMonth] : monthsEn[hMonth];
+
+    return $"{hDay} {monthName} {hYear}";
+}
+```
+
+واستخدمها في `ApplyLanguage()`:
+```csharp
+lblHijriDate.Text = $"📅 {GetHijriDate()}";
+```
+
+**ملاحظة:** لو مفيش `lblHijriDate` في الـ Designer:
+- أضف `Label` جديد في `ucInfoBar.Designer.cs`
+- حطه في أقصى اليمين (أو اليسار حسب RTL)
+
+---
+
+### ════════════════════════════════════════════
+### الميزة 3: 🌅 أذكار الصباح والمساء (Panel)
+### ════════════════════════════════════════════
+
+**الفكرة:** شاشة (Panel) فيها الأذكار مرتبة مع عداد لكل ذكر.
+
+**التنفيذ:**
+
+#### خطوة 1: أنشئ Control جديد `UI/Controls/Card/ucAdhkarRow.cs` + `.Designer.cs`
+
+صف ذكر واحد:
+```
+┌──────────────────────────────────────────────────────┐
+│  📿  "سبحان الله وبحمده"    [3/100]    [➕ Tap]     │
+│      — متفق عليه                                    │
+└──────────────────────────────────────────────────────┘
+```
+
+Properties:
+- `string AdhkarText` — نص الذكر
+- `string Source` — المصدر
+- `int RepeatCount` — العدد المطلوب (×3, ×100)
+- `int CurrentCount` — العدد الحالي
+- `bool IsCompleted` — خلص ولا لسه
+- Event: `TapClicked` — لما يضغط +1
+
+**اتبع نفس نمط `ucPrayerTrackRow`** (IThemeable, ILocalizable, SetStyle, sections)
+
+#### خطوة 2: أنشئ Panel `UI/Controls/Card/ucAdhkarPanel.cs` + `.Designer.cs`
+
+نفس نمط `ucTrackingPanel` — يسلايد من اليمين:
+```
+╔═══════════════════════════════════════════════╗
+║  🌅 أذكار الصباح                        [✕] ║
+╠═══════════════════════════════════════════════╣
+║  [N × ucAdhkarRow — كل واحد فيه عداد]       ║
+╠═══════════════════════════════════════════════╣
+║  📊 تم إنجاز: ████████░░ 7/10               ║
+╚═══════════════════════════════════════════════╝
+```
+
+- `LoadMorningAdhkar()` — يحمّل mock data (من الـ SQL seed data)
+- `LoadEveningAdhkar()` — يحمّل mock data
+- SlideIn() / SlideOut() — نفس نمط Settings/Tracking
+
+#### خطوة 3: ربط في frmMain
+
+- أضف `ucAdhkarPanel adhkarPanel` في frmMain.Designer.cs
+- أضف `pnlOverlay3` للـ overlay
+- أضف زر في ucTitleBar أو إشعار تلقائي:
+  - بعد الفجر → `adhkarPanel.LoadMorningAdhkar()` + `SlideIn()`
+  - بعد العصر → `adhkarPanel.LoadEveningAdhkar()` + `SlideIn()`
+  - (حالياً: زر يدوي في ucTitleBar لحد ما نربط التوقيتات)
+
+#### خطوة 4: أضف نصوص في ILanguagePack + ArabicPack + EnglishPack
+
+في `ILanguagePack.Tracking.cs` (أو أنشئ partial جديد `ILanguagePack.Adhkar.cs`):
+```csharp
+// Adhkar
+string AdhkarMorningTitle { get; }  // "أذكار الصباح"
+string AdhkarEveningTitle { get; }  // "أذكار المساء"
+string AdhkarCompleted { get; }     // "تم إنجاز"
+string AdhkarTap { get; }           // "اضغط للعدّ"
+string AdhkarDone { get; }          // "✅ اكتمل"
+string AdhkarProgress { get; }      // "{0}/{1}"
+```
+
+## ═══════════════════════════════════════════════
+## ⚠️ قواعد البناء (نفس القواعد — اقرأها مرة تاني!):
+## ═══════════════════════════════════════════════
+
+1. **SetStyle** في كل constructor
+2. **IThemeable + ILocalizable** على كل control
+3. **صفر ألوان hardcoded** — كل لون من ThemeColors
+4. **صفر نصوص hardcoded** — كل نص من ILanguagePack
+5. **Emoji فقط** — مفيش PNG/SVG
+6. **Visibility Toggle** بدل Controls.Clear/Add
+7. **Designer.cs:** استخدم `new Guna.UI2.WinForms.Suite.CustomizableEdges()` مش `new()`
+8. **مفيش DAL أو BLL** — Mock data فقط مع `// TODO: BLL`
+
+## ═══════════════════════════════════════════════
+## 📁 الملفات المرجعية:
+## ═══════════════════════════════════════════════
+
+| الملف | لماذا تقرأه |
+|-------|------------|
+| `UI/Controls/Card/ucPrayerTrackRow.cs` + `.Designer.cs` | **مرجع لبناء ucAdhkarRow** |
+| `UI/Controls/Card/ucTrackingPanel.cs` + `.Designer.cs` | **مرجع لبناء ucAdhkarPanel** |
+| `UI/Controls/Layout/ucInfoBar.cs` + `.Designer.cs` | **عدّل عليه للتاريخ الهجري** |
+| `UI/Controls/Layout/ucTitleBar.cs` + `.Designer.cs` | **أضف زر أذكار** |
+| `UI/Controls/Settings/ucSettingsPanel.cs` | مرجع Slide pattern |
+| `UI/Forms/frmMain.cs` + `.Designer.cs` | الربط النهائي |
+| `UI/Core/Engine/clsUIEngine.cs` | لا تعدّل — فقط اقرأ |
+| `UI/Core/Language/Partials/ILanguagePack.Tracking.cs` | مرجع partial interface |
+| `UI/Core/Language/Languages/ArabicPack.cs` | أضف النصوص العربية |
+| `UI/Core/Language/Languages/EnglishPack.cs` | أضف النصوص الإنجليزية |
+
+## ═══════════════════════════════════════════════
+## ✅ Checklist:
+## ═══════════════════════════════════════════════
+
+- [ ] `clsAdhkarService` — Timer + NotifyIcon + Mock data
+- [ ] frmMain يشغّل `clsAdhkarService.Start()` في الـ constructor
+- [ ] ucInfoBar يعرض التاريخ الهجري (📅)
+- [ ] `ucAdhkarRow` — control جديد (IThemeable + ILocalizable)
+- [ ] `ucAdhkarPanel` — panel جديد مع SlideIn/SlideOut
+- [ ] ucTitleBar فيه زر أذكار
+- [ ] frmMain يربط ucAdhkarPanel (overlay + slide)
+- [ ] ILanguagePack.Adhkar.cs + ArabicPack + EnglishPack
+- [ ] صفر ألوان hardcoded
+- [ ] صفر نصوص hardcoded
+- [ ] مفيش DAL أو BLL files
+- [ ] Build succeeded بدون errors
+
+## ابدأ الآن — الميزة 1 (clsAdhkarService) → الميزة 2 (ucInfoBar) → الميزة 3 (ucAdhkarPanel)
+```
+
+---

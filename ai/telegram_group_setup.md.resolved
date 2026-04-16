@@ -1,0 +1,147 @@
+# 📱 Salati — Telegram Group Setup
+
+---
+
+## 1. اسم الجروب (اختار واحد):
+
+| # | الاسم | الانطباع |
+|---|-------|----------|
+| 1 | **Salati — فريق التطوير** | ⭐ واضح ومباشر |
+| 2 | **Salati Dev Team 🕌** | احترافي + إنجليزي |
+| 3 | **صلاتي — Open Source Team** | يوضح إنه مفتوح المصدر |
+
+**توصيتي:** `Salati — فريق التطوير 🕌`
+
+---
+
+## 2. وصف الجروب (Description):
+
+```
+🕌 Salati — تطبيق تنبيه الصلاة لمستخدمي Windows
+
+مشروع Open Source بنبنيه مع بعض
+Tech: C# | WinForms | .NET 9 | SQL Server | Guna.UI2
+
+📌 القناة الرسمية للتواصل وتوزيع المهام
+```
+
+---
+
+## 3. الرسالة المثبتة (Pinned Message) — انسخها كلها:
+
+```
+بسم الله الرحمن الرحيم 🤲
+
+═══════════════════════
+🕌 مرحباً بكم في فريق Salati
+═══════════════════════
+
+📋 عن المشروع:
+تطبيق ديسكتوب لنظام Windows بينبّه المستخدم على مواعيد الصلاة. بسيط من بره — احترافي من جواه.
+
+🎯 الفكرة الأساسية:
+• التطبيق بيشتغل في الخلفية (System Tray)
+• بينبّه المستخدم قبل الصلاة بالدقائق اللي يحددها
+• بيشغّل صوت أذان (لو مفعّل)
+• المستخدم يحدد المواعيد يدوي أو أوتوماتيك من API
+• دعم عربي + إنجليزي + ثيم داكن وفاتح
+
+🛠 التقنيات:
+• C# — .NET 9.0
+• WinForms + Guna.UI2 (UI Library)
+• SQL Server + T-SQL (Stored Procedures)
+• 3-Tier Architecture (DAL → BLL → UI)
+• Windows Registry (إعدادات المستخدم)
+• Windows Event Viewer (تسجيل الأخطاء)
+• Aladhan API (مواعيد الصلاة)
+
+📱 الشاشات (9 شاشات):
+1️⃣ Dashboard — الشاشة الرئيسية (Countdown + 5 كروت صلاة)
+2️⃣ Settings — Prayer Times (مواعيد الصلاة: API أو يدوي)
+3️⃣ Settings — Alerts (تنبيه كل صلاة: دقائق + صوت)
+4️⃣ Settings — Appearance (ثيم داكن/فاتح + لغة)
+5️⃣ Settings — General (Startup + Tray + Reset)
+6️⃣ Alert Popup (تنبيه يظهر قبل الصلاة)
+7️⃣ Widget Mode (وضع مصغر always-on-top)
+8️⃣ Splash Screen (شاشة تحميل)
+9️⃣ System Tray Menu
+
+🗄 قاعدة البيانات (SQL Server — 8 جداول):
+• Locations — المواقع المحفوظة
+• DailyPrayerTimes — مواعيد الصلاة (Cache)
+• Sounds — أصوات الأذان
+• AlertConfigs — إعدادات التنبيه لكل صلاة
+• AlertLog — سجل التنبيهات
+• PrayerTracking — تتبع الصلاة (v1.5)
+• AppSettings — إعدادات التطبيق
+• ErrorLog — سجل الأخطاء
+
+👥 الأدوار المطلوبة:
+• 🔧 Backend (DAL + BLL) — C# + ADO.NET + SQL
+• 🎨 Frontend (UI) — WinForms + Guna.UI2
+• 🗄 Database — T-SQL + Stored Procedures
+• 🧪 Testing — اختبار الميزات
+
+📌 ملاحظات مهمة:
+• المشروع Open Source — MIT License
+• أي مستوى مرحب بيه (مبتدئ ومتقدم)
+• هنشتغل بنظام Issues على GitHub
+• كل شخص ياخد Task ويشتغل عليها
+
+⬇️ تصميم الشاشات في الرسالة الجاية ⬇️
+```
+
+---
+
+## 4. رسالة الشاشات (ابعتها بعد الرسالة المثبتة):
+
+**ابعت كل صورة من الـ 9 صور اللي في `doc/UI_UX/` مع caption قصير:**
+
+| الترتيب | الملف | الـ Caption |
+|---------|-------|------------|
+| 1 | `visily-splash-screen.png` | `🕌 Splash Screen — شاشة التحميل` |
+| 2 | `visily-salati-islamic-prayer-reminder.png` | `🏠 Main Dashboard — الشاشة الرئيسية` |
+| 3 | `visily-container.png` | `⚙️ Settings — Prayer Times (مواعيد الصلاة)` |
+| 4 | `visily-container (1).png` | `🔔 Settings — Alerts (التنبيهات)` |
+| 5 | `visily-container (5).png` | `🎨 Settings — Appearance (المظهر)` |
+| 6 | `visily-container (4).png` | `⚙️ Settings — General (عام)` |
+| 7 | `visily-container (2).png` | `📢 Alert Popup — تنبيه الصلاة` |
+| 8 | `visily-prayer-widget.png` | `📌 Widget Mode — الوضع المصغر` |
+| 9 | `visily-container (3).png` | `🖥 System Tray Menu` |
+
+---
+
+## 5. رسالة بعد الشاشات:
+
+```
+═══════════════════════
+📌 إزاي تشارك معانا؟
+═══════════════════════
+
+1️⃣ عرّف نفسك هنا (الاسم + المستوى + إيه اللي تحب تشتغل فيه)
+2️⃣ هنعمل GitHub Repo قريب وهنوزع المهام كـ Issues
+3️⃣ كل واحد ياخد Issue يشتغل عليها ويعمل Pull Request
+
+💡 حتى لو مبتدئ — في مهام مناسبة ليك:
+• إنشاء Models و Enums
+• كتابة Stored Procedures
+• بناء UserControls بسيطة
+• كتابة Documentation
+• اختبار الميزات
+
+🤝 "خير الأعمال ما نفع الناس"
+
+✍️ عرّف نفسك في الكومنتات ⬇️
+```
+
+---
+
+## 6. إعدادات الجروب المقترحة:
+
+| الإعداد | القيمة |
+|---------|--------|
+| **نوع الجروب** | Public أو Private (أنت تختار) |
+| **صلاحية الإرسال** | الكل يقدر يبعت |
+| **Slow Mode** | OFF |
+| **صورة الجروب** | استخدم صورة الـ Splash Screen أو الـ Dashboard |
+| **الرسالة المثبتة** | الرسالة رقم 3 (المثبتة) |

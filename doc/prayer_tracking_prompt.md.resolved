@@ -1,0 +1,137 @@
+# 🕌 Prompt — إضافة ميزة Prayer Tracking لمشروع Salati
+
+انسخ كل الكلام ده وابعته في شات جديد:
+
+---
+
+```
+اقرأ الملف D:\My_Code\learn code\Projects\Salati\doc\basics\07_AI_CONTEXT.md الأول عشان تفهم المشروع.
+
+## المطلوب:
+إضافة ميزة **Prayer Tracking** (تتبع الصلاة) لمشروع Salati. 
+الميزة تسمح للمستخدم بتعليم ✅ على كل صلاة صلّاها اليوم.
+
+## القواعد:
+1. المستخدم يقدر يعلّم على صلوات **اليوم فقط** — مش أمبارح.
+2. ميقدرش يعلّم على صلاة **لسه ما أذّنتش** — الصلاة لازم يكون عدّى وقتها.
+3. لو المستخدم مافتحش البرنامج يوم — البرنامج يعتبر كل صلوات اليوم ده **Missed**.
+4. فيه رسم بياني يوضح مستوى الالتزام خلال الشهر.
+5. فيه **Streak Counter** 🔥 (عدد أيام الالتزام المتتالية).
+
+## الداتابيز:
+✅ جدول `PrayerTracking` موجود بالفعل في الداتابيز (اقرأ DATABASE.md).
+✅ الـ SPs جاهزة في: `D:\My_Code\learn code\Projects\Salati\doc\DB\Script\SalatiDB_PrayerTracking_SPs.sql`
+
+الـ SPs المتاحة:
+- `SP_MarkPrayer` — تعليم صلاة (@Prayer, @Status, @Result OUTPUT)
+- `SP_UnmarkPrayer` — إلغاء تعليم (@Prayer)
+- `SP_GetTodayTracking` — حالة صلوات اليوم
+- `SP_FillMissedDays` — ملء الأيام الفاضية بـ Missed (يتنادى مرة عند فتح البرنامج)
+- `SP_GetMonthlyTrackingStats` — إحصائيات الشهر (@Month, @Year)
+- `SP_GetWeeklyTrackingStats` — إحصائيات أسبوعية
+- `SP_GetStreakCount` — عدد أيام الالتزام (@StreakDays OUTPUT)
+- `SP_GetOverallPercentage` — نسبة الالتزام الكلية (@Percentage OUTPUT)
+
+## المطلوب تعمله بالترتيب:
+
+### 1. Data Access Layer (DAL)
+اعمل ملف جديد: `DAL/PrayerTimes/clsPrayerTrackingData.cs`
+- كل method تنادي SP واحد باستخدام `clsDataAccessHelper`.
+- اتبع نفس نمط باقي ملفات الـ DAL في المشروع.
+
+### 2. Business Logic Layer (BLL)
+اعمل ملف جديد: `BLL/PrayerTimes/clsPrayerTrackingManager.cs`
+- ينادي الـ DAL ويعمل الـ validation.
+- Method `MarkPrayer(ePrayer prayer)` — تحدد تلقائي لو OnTime أو Late.
+- Method `InitializeToday()` — تنادي SP_FillMissedDays + تفحص صلوات اليوم.
+
+### 3. Enum
+أضف في `UI/Core/Enums.cs`:
+```csharp
+/// <summary>حالة تتبع الصلاة</summary>
+public enum eTrackingStatus
+{
+    NotMarked = 0,
+    OnTime = 1,
+    Late = 2,
+    Missed = 3
+}
+```
+
+### 4. UserControl — ucPrayerTrackRow
+اعمل control جديد: `UI/Controls/Card/ucPrayerTrackRow.cs`
+- صف واحد يمثل صلاة واحدة.
+- يعرض: Emoji + اسم الصلاة + الوقت + حالة (✅⚠️❌🔒) + زر Toggle.
+- لو الصلاة لسه ما أذّنتش → الزر مقفل (🔒 Disabled + لون خافت).
+- لو الصلاة أذّنت → الزر شغال ← يعلّم/يلغي التعليم.
+
+**التصميم (أفقي):**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🌅  الفجر    04:35 AM    ✅ صليت في الوقت    [☑️ Toggle]  │
+│  ☀️  الظهر    12:15 PM    ⚠️ صليت متأخر       [☑️ Toggle]  │
+│  🌤️  العصر    03:30 PM    ❌ لم أصلِّ بعد      [☐ Toggle]  │
+│  🌇  المغرب   06:15 PM    🔒 لم يحن الوقت     [🔒 Locked]  │
+│  🌙  العشاء   07:35 PM    🔒 لم يحن الوقت     [🔒 Locked]  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 5. UserControl — ucTrackingPanel
+اعمل control جديد: `UI/Controls/Card/ucTrackingPanel.cs`
+- يحتوي على:
+  - 5 × ucPrayerTrackRow (الصلوات الخمس)
+  - شريط نسبة الالتزام (Progress Bar)
+  - عداد الـ Streak 🔥
+  - رسم بياني بسيط للشهر (Bar Chart أو مجرد ProgressBars لكل يوم)
+
+**التصميم:**
+```
+╔═══════════════════════════════════════════════════╗
+║  🕌 تتبع الصلاة — الأربعاء 16 أبريل            ║
+╠═══════════════════════════════════════════════════╣
+║  [5 × ucPrayerTrackRow]                          ║
+╠═══════════════════════════════════════════════════╣
+║  📊 الالتزام: ████████████░░░  80%               ║
+║  🔥 5 أيام متتالية!                             ║
+╠═══════════════════════════════════════════════════╣
+║  📅 هذا الشهر:                                   ║
+║  1  ██████ 5/5                                   ║
+║  2  ████░░ 4/5                                   ║
+║  3  ░░░░░░ 0/5  ❌                               ║
+║  ...                                             ║
+╚═══════════════════════════════════════════════════╝
+```
+
+### 6. ربط بـ frmMain
+- أضف زر "📊" أو Tab في ucTitleBar أو Dashboard.
+- لما المستخدم يضغط عليه → **ucTrackingPanel يعمل SlideIn من الأسفل أو اليمين** (نفس نمط ucSettingsPanel).
+- أضف Overlay خلفه (نفس نمط Settings).
+
+### 7. تشغيل SP_FillMissedDays عند فتح البرنامج
+- في `Program.cs` أو في `frmMain` constructor → نادي `clsPrayerTrackingManager.InitializeToday()`.
+
+## ⚠️ قواعد مهمة:
+1. **IThemeable + ILocalizable** — كل control جديد لازم يطبقهم.
+2. **صفر ألوان hardcoded** — كل حاجة من ThemeColors.
+3. **صفر نصوص hardcoded** — أضف النصوص المطلوبة في ILanguagePack + Arabic + English.
+4. **DoubleBuffered = true** — على كل control عشان مفيش فليكر.
+5. **SetStyle(AllPaintingInWmPaint | OptimizedDoubleBuffer)** — في كل constructor.
+6. **Guna2Panel** — للكاردات والخلفيات (بـ BorderRadius + Shadow).
+7. **Emoji للأيقونات** — مفيش PNG/SVG.
+8. **Hover animations** — `clsAnimationManager.AttachHoverScale()` على الأزرار.
+9. **Entrance animations** — SlideIn عند أول عرض.
+10. **اقرأ ucPrayerCard.cs كمرجع** — نفس نمط الكود والتنظيم.
+
+## الملفات المرجعية (اقرأهم قبل ما تبدأ):
+- `D:\My_Code\learn code\Projects\Salati\doc\basics\07_AI_CONTEXT.md` ← معلومات المشروع
+- `D:\My_Code\learn code\Projects\Salati\doc\DB\DATABASE.md` ← تصميم الداتابيز
+- `D:\My_Code\learn code\Projects\Salati\doc\DB\Script\SalatiDB_PrayerTracking_SPs.sql` ← الـ SPs
+- `D:\My_Code\learn code\Projects\Salati\Salati\UI\Controls\Card\ucPrayerCard.cs` ← مرجع النمط
+- `D:\My_Code\learn code\Projects\Salati\Salati\UI\Core\Enums.cs` ← الـ Enums
+- `D:\My_Code\learn code\Projects\Salati\Salati\UI\Forms\frmMain.cs` ← الشاشة الرئيسية
+- `D:\My_Code\learn code\AI-Skills\desktop\flicker-fix.md` ← حلول الفليكر
+
+ابدأ خطوة خطوة — DAL أولاً ثم BLL ثم UI.
+```
+
+---

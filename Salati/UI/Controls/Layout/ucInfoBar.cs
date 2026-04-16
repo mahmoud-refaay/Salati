@@ -1,3 +1,4 @@
+using System.Globalization;
 using UI.Core.Theme;
 using UI.Core.Language;
 
@@ -34,14 +35,38 @@ namespace UI.Controls.Layout
         //  Public Methods
         // ═══════════════════════════════════════
 
-        /// <summary>يحدّث التاريخ المعروض</summary>
+        /// <summary>يحدّث التاريخ المعروض (ميلادي + هجري)</summary>
         public void UpdateDate(DateTime date, bool isArabic)
         {
-            string formatted = isArabic
-                ? date.ToString("📅 dddd، d MMMM yyyy", new System.Globalization.CultureInfo("ar-EG"))
-                : date.ToString("📅 dddd, MMMM d, yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            string gregorian = isArabic
+                ? date.ToString("📅 dddd، d MMMM", new CultureInfo("ar-EG"))
+                : date.ToString("📅 dddd, MMMM d", CultureInfo.InvariantCulture);
 
-            lblDate.Text = formatted;
+            string hijri = GetHijriDate(isArabic);
+
+            lblDate.Text = $"{gregorian}  ·  {hijri}";
+        }
+
+        /// <summary>يحسب التاريخ الهجري من System.Globalization</summary>
+        private static string GetHijriDate(bool isArabic)
+        {
+            var hijri = new HijriCalendar();
+            var today = DateTime.Today;
+
+            int hDay = hijri.GetDayOfMonth(today);
+            int hMonth = hijri.GetMonth(today);
+            int hYear = hijri.GetYear(today);
+
+            string[] monthsAr = ["", "محرم", "صفر", "ربيع الأول", "ربيع الثاني",
+                "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان",
+                "رمضان", "شوال", "ذو القعدة", "ذو الحجة"];
+
+            string[] monthsEn = ["", "Muharram", "Safar", "Rabi I", "Rabi II",
+                "Jumada I", "Jumada II", "Rajab", "Sha'ban",
+                "Ramadan", "Shawwal", "Dhul-Qi'dah", "Dhul-Hijjah"];
+
+            string monthName = isArabic ? monthsAr[hMonth] : monthsEn[hMonth];
+            return $"🌙 {hDay} {monthName} {hYear}";
         }
 
         /// <summary>يحدّث اسم المدينة</summary>

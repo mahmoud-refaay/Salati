@@ -90,5 +90,33 @@ namespace UI.Core.Language.Languages
         public string AlertOk => "OK";
         public string AlertYes => "Yes";
         public string AlertNo => "No";
+
+        // ═══ Tracking ═══
+        public string TrackingTitle => "Prayer Tracking";
+        public string TrackingSubtitle => "Keep up with your prayers";
+        public string TrackingOnTime => "Prayed on time";
+        public string TrackingLate => "Prayed late";
+        public string TrackingMissed => "Missed";
+        public string TrackingNotYet => "Not marked yet";
+        public string TrackingLocked => "Not yet due";
+        public string TrackingCommitment => "Commitment";
+        public string TrackingStreak => "Streak";
+        public string TrackingStreakDays => "{0} days 🔥";
+        public string TrackingThisMonth => "This Month";
+        public string TrackingMarkPrayed => "Prayed ✓";
+        public string TrackingUnmark => "Unmark ✕";
+        public string TrackingMarkedSuccess => "{0} marked successfully";
+        public string TrackingUnmarkedSuccess => "{0} unmarked";
+        public string TrackingNoPrayerTimes => "No prayer times are available for today";
+        public string TrackingTooEarly => "This prayer is not due yet";
+        public string TrackingGenericError => "Unable to update prayer tracking";
+
+        // ═══ Adhkar ═══
+        public string AdhkarMorningTitle => "Morning Adhkar";
+        public string AdhkarEveningTitle => "Evening Adhkar";
+        public string AdhkarTap => "Tap each dhikr to count";
+        public string AdhkarDone => "✅ Completed";
+        public string AdhkarProgress => "Completed: {0}/{1}";
+        public string AdhkarCompleted => "Alhamdulillah — All adhkar completed!";
     }
 }

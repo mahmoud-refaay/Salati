@@ -1,0 +1,262 @@
+# 🕌 Prompt — Prayer Tracking UI (Full Implementation)
+
+**انسخ كل الكلام اللي تحت وابعته في شات جديد:**
+
+---
+
+```
+## 📖 اقرأ الملفات دي الأول (بالترتيب):
+
+1. `D:\My_Code\learn code\Projects\Salati\doc\basics\07_AI_CONTEXT.md` ← معلومات المشروع الكاملة
+2. `D:\My_Code\learn code\Projects\Salati\doc\DB\DATABASE.md` ← تصميم الداتابيز
+3. `D:\My_Code\learn code\Projects\Salati\doc\DB\Script\SalatiDB_PrayerTracking_SPs.sql` ← الـ SPs الجاهزة
+4. `D:\My_Code\learn code\AI-Skills\desktop\flicker-fix.md` ← حلول الفليكر (مهم جداً!)
+
+## ⚠️⚠️⚠️ تحذيرات هامة — اقرأها قبل أي كود! ⚠️⚠️⚠️
+
+### 🔴 تحذير 1: لا تكسر الكود الحالي!
+المشروع شغال بكفاءة عالية — مفيش فليكر، مفيش بطء، مفيش أخطاء.
+**أي كود تضيفه لازم يكون بنفس المستوى بالظبط.** لو عملت حاجة تسبب فليكر أو بطء = ده فشل كامل.
+
+### 🔴 تحذير 2: اتبع الأنماط الموجودة بالحرف!
+المشروع ده عنده أنماط ثابتة. **قبل ما تكتب أي كود جديد — اقرأ الملفات المرجعية** واتبع نفس الـ:
+- نفس تنظيم الكود (Sections: Fields → Events → Constructor → Properties → IThemeable → ILocalizable)
+- نفس الـ naming conventions (ePrayer, eTrackingStatus, clsThemeManager, etc.)
+- نفس الـ XML comments style
+- نفس الـ SetStyle + DoubleBuffered pattern في كل constructor
+
+### 🔴 تحذير 3: الكنترولات الأساسية موجودة!
+الكنترولات التالية **موجودة بالفعل ومتكتبة** — **لا تعيد كتابتها من الصفر!**
+- `UI/Controls/Card/ucPrayerTrackRow.cs` + `.Designer.cs` ← صف تتبع صلاة واحدة
+- `UI/Controls/Card/ucTrackingPanel.cs` + `.Designer.cs` ← لوحة التتبع الرئيسية
+- `UI/Core/Language/Partials/ILanguagePack.Tracking.cs` ← نصوص التتبع
+
+**اقرأ هذه الملفات أولاً واستخدمها — لا تعمل ملفات بديلة.**
+
+## ═══════════════════════════════════════════════
+## 📋 المطلوب (بالترتيب):
+## ═══════════════════════════════════════════════
+
+### المرحلة 1: Data Access Layer (DAL)
+────────────────────────────────────────
+
+أنشئ: `DAL/PrayerTimes/clsPrayerTrackingData.cs`
+
+يحتوي على methods static تنادي الـ SPs من ملف `SalatiDB_PrayerTracking_SPs.sql`:
+
+```csharp
+public static class clsPrayerTrackingData
+{
+    // ينادي SP_MarkPrayer — يرجع int (0=نجح, -1=لسه, -2=مفيش مواعيد)
+    public static int MarkPrayer(byte prayer, byte status);
+
+    // ينادي SP_UnmarkPrayer
+    public static void UnmarkPrayer(byte prayer);
+
+    // ينادي SP_GetTodayTracking — يرجع DataTable (Prayer, PrayerTime, Status, MarkedAt)
+    public static DataTable GetTodayTracking();
+
+    // ينادي SP_FillMissedDays
+    public static void FillMissedDays();
+
+    // ينادي SP_GetMonthlyTrackingStats — يرجع DataTable
+    public static DataTable GetMonthlyStats(int month, int year);
+
+    // ينادي SP_GetWeeklyTrackingStats — يرجع DataTable
+    public static DataTable GetWeeklyStats();
+
+    // ينادي SP_GetStreakCount — يرجع int
+    public static int GetStreakCount();
+
+    // ينادي SP_GetOverallPercentage — يرجع decimal
+    public static decimal GetOverallPercentage();
+}
+```
+
+**استخدم `clsDataAccessHelper`** — اقرأ الملف الموجود في `DAL/Helper/` واتبع نفس النمط بالظبط.
+
+### المرحلة 2: Business Logic Layer (BLL)
+────────────────────────────────────────
+
+أنشئ: `BLL/PrayerTimes/clsPrayerTrackingManager.cs`
+
+```csharp
+public static class clsPrayerTrackingManager
+{
+    // يتنادى مرة عند فتح البرنامج — يملا الأيام اللي فاتت بـ Missed + يجيب حالة النهارده
+    public static void InitializeToday();
+
+    // يعلّم صلاة — يحدد تلقائي لو OnTime أو Late بناءً على الوقت الحالي
+    // يرجع eTrackingStatus النهائية
+    public static eTrackingStatus MarkPrayer(ePrayer prayer);
+
+    // يلغي تعليم صلاة
+    public static void UnmarkPrayer(ePrayer prayer);
+
+    // يجيب حالة صلوات اليوم (5 صلوات)
+    public static List<(ePrayer Prayer, TimeOnly Time, eTrackingStatus Status, bool IsLocked)> GetTodayStatus();
+
+    // إحصائيات
+    public static int GetStreakCount();
+    public static decimal GetOverallPercentage();
+}
+```
+
+**القاعدة المهمة:** لتحديد OnTime vs Late:
+- لو المستخدم علّم في خلال 30 دقيقة من وقت الأذان = OnTime
+- لو علّم بعد 30 دقيقة = Late
+
+### المرحلة 3: ربط ucTrackingPanel بالداتا الحقيقية
+────────────────────────────────────────
+
+**الملفات موجودة بالفعل — عدّل عليها فقط:**
+
+1. `UI/Controls/Card/ucTrackingPanel.cs`:
+   - غيّر `LoadMockData()` → `LoadRealData()` ينادي `clsPrayerTrackingManager.GetTodayStatus()`
+   - ممكن تخلي `LoadMockData()` كـ fallback لو مفيش DB
+
+2. عدّل event `PrayerToggled` في `ucTrackingPanel`:
+   - لما المستخدم يضغط Toggle → نادي `clsPrayerTrackingManager.MarkPrayer()` أو `UnmarkPrayer()`
+   - حدّث الـ Row + Stats
+   - اعرض `ucToast.ShowSuccess()` بعد التعليم
+
+### المرحلة 4: ربط ucTrackingPanel بـ frmMain
+────────────────────────────────────────
+
+**عدّل `UI/Forms/frmMain.cs`:**
+
+1. أضف زر "📊" في ucTitleBar (أو اعمل زر جديد تحت الكاردات)
+2. أضف ucTrackingPanel instance في frmMain (نفس نمط settingsPanel)
+3. لما المستخدم يضغط "📊" → `trackingPanel.SlideIn()`
+4. استخدم Overlay (pnlOverlay) — نفس نمط Settings
+
+**اقرأ كيف settingsPanel مربوط في frmMain واتبع نفس النمط بالحرف:**
+```csharp
+// في frmMain — نمط Settings الحالي:
+private void ShowSettings()
+{
+    pnlOverlay.Visible = true;
+    pnlOverlay.BringToFront();
+    settingsPanel.BringToFront();
+    settingsPanel.SlideIn();
+}
+```
+
+### المرحلة 5: تشغيل SP_FillMissedDays عند بداية البرنامج
+────────────────────────────────────────
+
+في `frmMain` constructor (بعد `LoadMockData()`):
+```csharp
+// ملء الأيام اللي فاتت بـ Missed
+// TODO: BLL — clsPrayerTrackingManager.InitializeToday();
+```
+
+### المرحلة 6 (اختياري — لو في وقت): إضافة تقويم شهري
+────────────────────────────────────────
+
+أنشئ control جديد: `UI/Controls/Card/ucMonthCalendar.cs`
+
+هدفه: عرض تقويم الشهر مع ألوان تدل على مستوى كل يوم:
+- 🟢 أخضر = 5/5 صلوات
+- 🟡 أصفر = 3-4/5
+- 🔴 أحمر = 0-2/5
+- ⬜ رمادي = اليوم الحالي/مستقبل
+
+لما المستخدم يضغط على يوم → يعرض تفاصيل الصلوات اللي صلّاها
+
+**التصميم:**
+```
+📅 أبريل 2026                    [◀] [▶]
+┌────────────────────────────────────────┐
+│  أحد   إثنين  ثلاثاء  أربعاء  خميس   │
+│         1🟢    2🟢    3🟡    4🔴     │
+│  6🟢   7🟢    8🟢    9🔴   10🟢    │
+│ 12🟡  13🟢   14🟢   15🟢   16⬜    │
+└────────────────────────────────────────┘
+```
+
+هذا الـ control يتحط جوه ucTrackingPanel أو في tab/view تاني.
+
+## ═══════════════════════════════════════════════
+## ⚠️ قواعد البناء (MANDATORY):
+## ═══════════════════════════════════════════════
+
+### قواعد الأداء (Performance):
+1. `SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true)` — في كل constructor
+2. `this.DoubleBuffered = true` — في كل Form
+3. لا تعمل `Controls.Clear() + Controls.Add()` — استخدم **Visibility Toggle** (اقرأ ucSettingsPanel.SwitchTab)
+4. لا تعيد إنشاء controls في كل refresh — اعملهم مرة في Constructor وحدّث بياناتهم بس
+5. `SET NOCOUNT ON` في كل SP (موجود بالفعل ✅)
+
+### قواعد الـ Theme:
+1. **صفر ألوان hardcoded** — كل لون من `ThemeColors t`
+2. كل control جديد لازم يطبّق `IThemeable`
+3. اقرأ `ucPrayerTrackRow.ApplyTheme()` كمرجع للأسلوب
+
+### قواعد اللغة:
+1. **صفر نصوص hardcoded** — كل نص من `ILanguagePack`
+2. كل control جديد لازم يطبّق `ILocalizable`
+3. لو محتاج نصوص جديدة → أضفها في:
+   - `ILanguagePack.Tracking.cs` (partial interface)
+   - `ArabicPack.cs` (التطبيق العربي)
+   - `EnglishPack.cs` (التطبيق الإنجليزي)
+
+### قواعد الأيقونات:
+1. **Emoji فقط** — مفيش PNG/SVG/Icon files
+2. الإيموجي من `PrayerHelper.GetEmoji()` و `PrayerHelper.GetTrackingEmoji()`
+
+### قواعد الـ Animation:
+1. استخدم `clsAnimationManager.AttachHoverScale()` على الأزرار
+2. استخدم `clsAnimationManager.SlideIn()` / `SlideOut()` للوحات
+3. اقرأ `ucTrackingPanel.SlideIn()` كمرجع
+
+### تنظيم الكود:
+1. اتبع نفس الـ section headers:
+```csharp
+// ═══════════════════════════════════════
+//  Fields
+// ═══════════════════════════════════════
+```
+2. `[DesignerSerializationVisibility(Hidden)]` على كل property
+3. `public partial class` مع `designer.cs` منفصل
+
+## ═══════════════════════════════════════════════
+## 📁 الملفات المرجعية (اقرأهم كلهم):
+## ═══════════════════════════════════════════════
+
+| الملف | لماذا تقرأه |
+|-------|------------|
+| `UI/Controls/Card/ucPrayerTrackRow.cs` + `.Designer.cs` | **الكنترول موجود — عدّل عليه بس** |
+| `UI/Controls/Card/ucTrackingPanel.cs` + `.Designer.cs` | **الكنترول موجود — عدّل عليه بس** |
+| `UI/Controls/Card/ucPrayerCard.cs` + `.Designer.cs` | مرجع أسلوب الكود |
+| `UI/Controls/Settings/ucSettingsPanel.cs` | مرجع الـ SlideIn/SlideOut + Tabs |
+| `UI/Controls/Settings/ucSettingsPrayer.cs` | مرجع IThemeable + ILocalizable |
+| `UI/Forms/frmMain.cs` | لربط الـ TrackingPanel |
+| `UI/Core/Engine/clsUIEngine.cs` | محرك الثيم — لا تعدّل عليه |
+| `UI/Core/Enums.cs` | الـ Enums — أضف eTrackingStatus لو مش موجود |
+| `UI/Core/Language/Partials/ILanguagePack.Tracking.cs` | نصوص التتبع — موجودة |
+| `UI/Core/Language/Languages/ArabicPack.cs` | التطبيق العربي — موجود |
+| `UI/Core/Theme/ThemeColorUtils.cs` | أدوات الألوان |
+| `DAL/Helper/clsDataAccessHelper.cs` | نمط الـ data access |
+
+## ═══════════════════════════════════════════════
+## ✅ Checklist — تأكد قبل ما تسلّم:
+## ═══════════════════════════════════════════════
+
+- [ ] كل control جديد يطبّق IThemeable + ILocalizable
+- [ ] صفر ألوان hardcoded (كلها من ThemeColors)
+- [ ] صفر نصوص hardcoded (كلها من ILanguagePack)
+- [ ] SetStyle + DoubleBuffered في كل constructor
+- [ ] Visibility Toggle بدل Controls.Clear/Add
+- [ ] Emoji فقط للأيقونات
+- [ ] الـ DAL بينادي SPs فعلية (مش inline SQL)
+- [ ] الـ BLL بيعمل validation
+- [ ] الـ TrackingPanel بيعمل SlideIn/SlideOut صح
+- [ ] مفيش فليكر عند الفتح/الإغلاق
+- [ ] الكود منظم بنفس sections الموجودة
+- [ ] المشروع يعمل Build بدون errors
+
+## ابدأ الآن — DAL أولاً → BLL → ربط UI → frmMain
+```
+
+---

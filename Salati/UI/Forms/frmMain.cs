@@ -1,3 +1,4 @@
+
 using UI.Core;
 using UI.Core.Theme;
 using UI.Core.Language;
@@ -48,6 +49,12 @@ namespace UI.Forms
             // Pre-load: إنشاء handles الشاشات في الذاكرة
             // حجمها صغير + بيخلي أول فتح يكون فوري
             settingsPanel.CreateControl();
+            trackingPanel.CreateControl();
+            adhkarPanel.CreateControl();
+            InitializePrayerTracking();
+
+            // 📿 إشعارات الأذكار في الخلفية (كل 30 دقيقة)
+            clsAdhkarService.Start(notifyIcon, 30);
 
             // تطبيق Theme + Language (smooth - بدون رعشة)
             clsUIEngine.ApplyAll(this);
@@ -190,6 +197,8 @@ namespace UI.Forms
         {
             // ── Title Bar ──
             titleBar.SettingsClicked += (s, e) => ShowSettings();
+            titleBar.TrackingClicked += (s, e) => ShowTracking();
+            titleBar.AdhkarClicked += (s, e) => ShowMorningAdhkar();
             titleBar.ThemeToggled += (s, e) => { /* clsUIEngine handles it */ };
             titleBar.LanguageToggled += (s, e) => { /* clsUIEngine handles it */ };
             titleBar.MinimizeClicked += (s, e) => this.WindowState = FormWindowState.Minimized;
@@ -205,6 +214,13 @@ namespace UI.Forms
                 HideSettings();
             };
 
+            // ── Tracking Panel ──
+            trackingPanel.CloseRequested += (s, e) => HideTracking();
+            trackingPanel.PrayerToggled += (s, prayer) => { };
+
+            // ── Adhkar Panel ──
+            adhkarPanel.CloseRequested += (s, e) => HideAdhkar();
+
             // ── Next Prayer ──
             nextPrayer.CountdownFinished += (s, e) =>
             {
@@ -213,8 +229,10 @@ namespace UI.Forms
                 // alert.Show();
             };
 
-            // ── Overlay click → إغلاق Settings ──
+            // ── Overlay click → إغلاق ──
             pnlOverlay.Click += (s, e) => HideSettings();
+            pnlOverlay2.Click += (s, e) => HideTracking();
+            pnlOverlay3.Click += (s, e) => HideAdhkar();
 
             // ── Tray ──
             notifyIcon.DoubleClick += (s, e) => ShowFromTray();
@@ -226,6 +244,7 @@ namespace UI.Forms
 
         private void ShowSettings()
         {
+            CloseTrackingImmediately();
             pnlOverlay.Visible = true;
             pnlOverlay.BringToFront();
             settingsPanel.BringToFront();
@@ -248,6 +267,74 @@ namespace UI.Forms
         }
 
         // ═══════════════════════════════════════
+        //  Tracking Panel (Slide)
+        // ═══════════════════════════════════════
+
+        private async void ShowTracking()
+        {
+            CloseSettingsImmediately();
+            pnlOverlay2.Visible = true;
+            pnlOverlay2.BringToFront();
+            trackingPanel.BringToFront();
+            trackingPanel.SlideIn();
+            await trackingPanel.LoadFromDatabaseAsync();
+        }
+
+        private void HideTracking()
+        {
+            trackingPanel.SlideOut();
+
+            var hideTimer = new System.Windows.Forms.Timer { Interval = 400 };
+            hideTimer.Tick += (s, e) =>
+            {
+                pnlOverlay2.Visible = false;
+                hideTimer.Stop();
+                hideTimer.Dispose();
+            };
+            hideTimer.Start();
+        }
+
+        // ═══════════════════════════════════════
+        //  Adhkar Panel (Slide)
+        // ═══════════════════════════════════════
+
+        public async void ShowMorningAdhkar()
+        {
+            CloseSettingsImmediately();
+            CloseTrackingImmediately();
+            pnlOverlay3.Visible = true;
+            pnlOverlay3.BringToFront();
+            adhkarPanel.BringToFront();
+            adhkarPanel.SlideIn();
+            await adhkarPanel.LoadMorningAdhkarAsync();
+        }
+
+        public async void ShowEveningAdhkar()
+        {
+            CloseSettingsImmediately();
+            CloseTrackingImmediately();
+            pnlOverlay3.Visible = true;
+            pnlOverlay3.BringToFront();
+            adhkarPanel.BringToFront();
+            adhkarPanel.SlideIn();
+            await adhkarPanel.LoadEveningAdhkarAsync();
+        }
+
+        private void HideAdhkar()
+        {
+            adhkarPanel.SlideOut();
+
+            var hideTimer = new System.Windows.Forms.Timer { Interval = 400 };
+            hideTimer.Tick += (s, e) =>
+            {
+                pnlOverlay3.Visible = false;
+                hideTimer.Stop();
+                hideTimer.Dispose();
+            };
+            hideTimer.Start();
+        }
+
+        // ═══════════════════════════════════════
         //  Widget Mode (300×85)
         // ═══════════════════════════════════════
 
@@ -263,6 +350,9 @@ namespace UI.Forms
         {
             _isWidgetMode = true;
             titleBar.IsWidgetMode = true; // 📌 → 🔙
+            CloseSettingsImmediately();
+            CloseTrackingImmediately();
+            CloseAdhkarImmediately();
             this.Size = new Size(300, 85);
             this.TopMost = true;
             this.Location = new Point(
@@ -271,8 +361,6 @@ namespace UI.Forms
 
             pnlDashboard.Visible = false;
             infoBar.Visible = false;
-            settingsPanel.Visible = false;
-            pnlOverlay.Visible = false;
 
             // عرض معلومات الصلاة القادمة
             lblWidgetInfo.Visible = true;
@@ -349,6 +437,27 @@ namespace UI.Forms
                 SwitchToFullMode();
         }
 
+        private void CloseSettingsImmediately()
+        {
+            pnlOverlay.Visible = false;
+            settingsPanel.Visible = false;
+            settingsPanel.Left = this.ClientSize.Width;
+        }
+
+        private void CloseTrackingImmediately()
+        {
+            pnlOverlay2.Visible = false;
+            trackingPanel.Visible = false;
+            trackingPanel.Left = this.ClientSize.Width;
+        }
+
+        private void CloseAdhkarImmediately()
+        {
+            pnlOverlay3.Visible = false;
+            adhkarPanel.Visible = false;
+            adhkarPanel.Left = this.ClientSize.Width;
+        }
+
         // ═══════════════════════════════════════
         //  IThemeable
         // ═══════════════════════════════════════
@@ -358,6 +467,8 @@ namespace UI.Forms
             pnlMainBg.FillColor = t.BgPrimary;
             pnlMainBg.FillColor2 = ThemeColorUtils.Lighten(t.BgPrimary, 5);
             pnlOverlay.BackColor = Color.FromArgb(120, 0, 0, 0);
+            pnlOverlay2.BackColor = Color.FromArgb(120, 0, 0, 0);
+            pnlOverlay3.BackColor = Color.FromArgb(120, 0, 0, 0);
         }
 
         // ═══════════════════════════════════════
@@ -425,5 +536,17 @@ namespace UI.Forms
 
             base.OnResize(e);
         }
+
+        // ═══════════════════════════════════════
+        //  Prayer Tracking Integration
+        // ═══════════════════════════════════════
+
+        private async void InitializePrayerTracking()
+        {
+            // ملء الأيام الفائتة بـ Missed
+            var service = new BLL.Services.PrayerTrackingService();
+            await service.FillMissedDaysAsync();
+        }
+
     }
 }
