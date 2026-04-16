@@ -53,8 +53,8 @@ namespace UI.Forms
             adhkarPanel.CreateControl();
             InitializePrayerTracking();
 
-            // 📿 إشعارات الأذكار في الخلفية (كل 30 دقيقة)
-            clsAdhkarService.Start(notifyIcon, 30);
+            // 📿 إشعارات الأذكار في الخلفية (الفترة من إعدادات المستخدم)
+            _ = clsAdhkarService.StartAsync(notifyIcon);
 
             // ⏰ جدولة تنبيهات الصلاة (كل 30 ثانية)
             clsAlertScheduler.Start(notifyIcon);

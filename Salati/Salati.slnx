@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="BLL/BLL.csproj" />
+  <Project Path="BLL/BLL.csproj" Id="bdb53a79-0752-4778-b5d5-185cbe9b1407" />
   <Project Path="DAL/DAL.csproj" />
   <Project Path="UI/UI.csproj" />
 </Solution>

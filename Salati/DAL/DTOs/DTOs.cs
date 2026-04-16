@@ -11,16 +11,18 @@ namespace DAL.DTOs;
 
 /// <summary>
 /// ذكر/حديث واحد — يتوافق مع SP_GetRandomAdhkar + SP_GetAdhkarByCategory
+/// ⚠️ Dapper يحتاج parameterless constructor — لذلك class مع init
 /// </summary>
-public record AdhkarDTO(
-    int AdhkarID,
-    eAdhkarCategory Category,
-    string TextAr,
-    string? TextEn,
-    string? Source,
-    byte RepeatCount,
-    byte SortOrder = 0
-);
+public class AdhkarDTO
+{
+    public int AdhkarID { get; init; }
+    public eAdhkarCategory Category { get; init; }
+    public string TextAr { get; init; } = "";
+    public string? TextEn { get; init; }
+    public string? Source { get; init; }
+    public byte RepeatCount { get; init; } = 1;
+    public byte SortOrder { get; init; }
+}
 
 
 /// <summary>
