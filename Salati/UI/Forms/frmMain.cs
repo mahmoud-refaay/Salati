@@ -38,6 +38,15 @@ namespace UI.Forms
             InitializeComponent();
             this.DoubleBuffered = true;
 
+            // 🎨 تعيين أيقونة التطبيق (Taskbar + Tray)
+            string iconPath = Path.Combine(Application.StartupPath, "Assets", "app_icon.ico");
+            if (File.Exists(iconPath))
+            {
+                var appIcon = new Icon(iconPath);
+                this.Icon = appIcon;
+                notifyIcon.Icon = appIcon;
+            }
+
             // تفعيل DoubleBuffered على كل الـ controls (يمنع الفليكر)
             clsUIEngine.EnableDoubleBufferingTree(this);
 
